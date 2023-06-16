@@ -1,6 +1,9 @@
+#include "../minirt.h"
 
-int	main(int ac, char *ag)
+int	main(int ac, char **argv)
 {
+	(void) ac;
+	(void) argv;
  /*check if the given argument is in .rt*/
 
 }
