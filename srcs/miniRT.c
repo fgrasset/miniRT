@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 10:08:24 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/06/19 11:23:03 by fgrasset         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../incs/minirt.h"
 
 void	initialize(t_rt *rt);
@@ -17,14 +5,9 @@ void	initialize(t_rt *rt);
 
 int	main(int argc, char **argv)
 {
-	// char	*file;
-	t_rt	*rt;
-	(void) argv;
-	rt = malloc(sizeof(t_rt));
-	if (argc == 2)
+	if (ac == 2)
 	{
-		initialize(rt);
-		make_window(rt);
+		parsing(argv[1]);
 	}
 	else
 		print_error("2 args needed");
