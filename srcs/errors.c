@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 17:06:20 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/06/19 10:21:09 by lfabbian         ###   ########.fr       */
+/*   Created: 2023/06/19 10:02:38 by lfabbian          #+#    #+#             */
+/*   Updated: 2023/06/19 10:13:31 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minirt.h"
 
-void parsing(char *file)
+int	print_error(char *error_message)
 {
-	int		fd;
-	char	*line;
-
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		print_error("File error");
-	line = get_next_line(fd);
-	if (!line)
-		print_error("Empty file");
+	ft_printf("%s\n", error_message);
+	exit (EXIT_FAILURE);
 }

@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 17:06:20 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/06/19 10:21:09 by lfabbian         ###   ########.fr       */
+/*   Created: 2023/06/16 16:01:14 by lfabbian          #+#    #+#             */
+/*   Updated: 2023/06/19 10:09:39 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minirt.h"
+#ifndef MINIRT_H
+# define MINIRT_H
 
-void parsing(char *file)
-{
-	int		fd;
-	char	*line;
+# include <stdio.h>
+# include <stdlib.h>
 
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		print_error("File error");
-	line = get_next_line(fd);
-	if (!line)
-		print_error("Empty file");
-}
+# include "../mlx/mlx.h"
+# include "../libft/ft_printf/ft_printf.h"
+# include "../libft/libft.h"
+# include "../libft/get_next_line/get_next_line.h"
+
+# include "structures.h"
+# include "prototypes.h"
+
+
+#endif

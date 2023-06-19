@@ -1,9 +1,26 @@
-#include "../minirt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   miniRT.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/19 10:08:24 by lfabbian          #+#    #+#             */
+/*   Updated: 2023/06/19 10:17:25 by lfabbian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../incs/minirt.h"
 
 int	main(int ac, char **argv)
 {
-	(void) ac;
-	(void) argv;
+	char	*file;
+	if (argc == 2)
+	{
+
+	}
+	else
+		print_error("2 args needed");
  /*check if the given argument is in .rt*/
 
 }
