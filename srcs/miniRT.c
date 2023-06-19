@@ -4,7 +4,7 @@ int	main(int ac, char **argv)
 {
 	if (ac == 2)
 	{
-		parsing(argv[1]);
+		file_parsing(argv[1]);
 	}
 	else
 		print_error("2 args needed");
