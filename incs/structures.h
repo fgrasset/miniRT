@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   structures.h                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 09:33:47 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/06/19 10:29:41 by lfabbian         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
@@ -54,7 +43,7 @@ typedef struct s_ambiant
 typedef struct s_camera
 {
 	char	*id;
-	t_initc	init;
+	t_vec3d	init;
 
 } t_camera;
 
@@ -62,7 +51,7 @@ typedef struct s_light
 {
 	char	*id;
 	float	ratio;
-	t_initc	init;
+	t_vec3d	init;
 
 } t_light;
 
@@ -75,6 +64,24 @@ typedef struct s_scene
 	t_light		light;
 	t_objects	*objects;
 } t_scene;
+
+/* struct for the image of mlbx */
+typedef struct s_img {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+} t_img;
+
+
+/* struct for everything mlbx related */
+typedef struct s_mlbx
+{
+	void	*mlx;
+	void	*mlx_win;
+	t_img	img;
+} t_mlbx;
 
 /* --------------------------------------------------- */
 
