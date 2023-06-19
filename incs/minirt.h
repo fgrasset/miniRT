@@ -11,6 +11,9 @@
 # include "structures.h"
 # include "prototypes.h"
 
+# define WIN_H 800
+# define WIN_W 600
+
 /* main structure used for everrything */
 typedef struct s_rt
 {

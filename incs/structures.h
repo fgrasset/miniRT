@@ -9,17 +9,17 @@
 
 typedef struct s_color
 {
-	int		red;
-	int		green;
-	int		blue;
+	int		r;
+	int		g;
+	int		b;
 } t_color;
 
-typedef struct s_vec3d
+typedef struct s_v3d
 {
 	double	x;
 	double	y;
 	double	z;
-} t_vec3d;
+} t_v3d;
 
 /* --------------------------------------------------- */
 /* -------- STRUCTURES RELATED TO THE OBJECTS -------- */
@@ -28,7 +28,7 @@ typedef struct s_vec3d
 typedef struct s_sphere
 {
 	char	*id;
-	t_vec3d	init;
+	t_v3d	init;
 	double	diameter;
 	t_color	color;
 } t_sphere;
@@ -36,16 +36,16 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	char	*id;
-	t_vec3d	init;
-	t_vec3d	orientation;
+	t_v3d	init;
+	t_v3d	orientation;
 	t_color	color;
 } t_plane;
 
 typedef struct s_cylinder
 {
 	char	*id;
-	t_vec3d init;
-	t_vec3d norm_vec;
+	t_v3d init;
+	t_v3d norm_vec;
 	double	diameter;
 	double	height;
 	t_color	color;
@@ -81,6 +81,9 @@ typedef struct s_ambiant
 typedef struct s_camera
 {
 	char	*id;
+	double	fov;
+	t_v3d	coord;
+	t_v3d	dir;
 	// t_initc	init;
 } t_camera;
 

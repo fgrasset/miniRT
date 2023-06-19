@@ -5,6 +5,9 @@ void	initialize(t_rt *rt);
 
 int	main(int argc, char **argv)
 {
+	t_rt	*rt;
+
+	rt = malloc(sizeof(t_rt));
 	if (ac == 2)
 	{
 		parsing(argv[1]);
