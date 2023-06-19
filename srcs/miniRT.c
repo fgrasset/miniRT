@@ -11,6 +11,7 @@ int	main(int argc, char **argv)
 	if (ac == 2)
 	{
 		file_parsing(argv[1]);
+		make_window(rt);
 	}
 	else
 		print_error("2 args needed");

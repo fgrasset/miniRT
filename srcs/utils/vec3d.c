@@ -43,11 +43,13 @@ double	norme(t_v3d *a)
 	return (res);
 }
 
-/* performs a*b */
-double	mult(t_v3d *a, t_v3d *b)
+/* performs axb (cross product) */
+t_v3d	cross(t_v3d *a, t_v3d *b)
 {
-	double	res;
+	t_v3d	*res;
 
-	res = (a->x * b->x) + (a->y * b->y) + (a->z * b->z);
+	res->x = a->y * b->z - a->z * b->y;
+	res->y = a->z * b->x - a->x * b->z;
+	res->z = a->x * b->y - a->y * b->x;
 	return (res);
 }
