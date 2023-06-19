@@ -10,7 +10,7 @@ int	main(int argc, char **argv)
 	rt = malloc(sizeof(t_rt));
 	if (ac == 2)
 	{
-		parsing(argv[1]);
+		file_parsing(argv[1]);
 	}
 	else
 		print_error("2 args needed");

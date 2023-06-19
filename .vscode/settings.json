@@ -5,6 +5,12 @@
 		"ft_printf.h": "c",
 		"minirt.h": "c",
 		"libft.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"__bit_reference": "c",
+		"algorithm": "c",
+		"bitset": "c",
+		"chrono": "c",
+		"unordered_map": "c",
+		"__locale": "c"
 	}
 }
