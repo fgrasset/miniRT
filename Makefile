@@ -6,9 +6,10 @@ NORMAL		= \033[0m
 UP 			= \033[A
 CUT 		= \033[K
 
-SRCS = $(wildcard srcs/*.c)
+SRCS = $(wildcard srcs/*.c) $(wildcard srcs/parsing/*.c)
 
-OBJS	:= ${SRCS:.c=.o}
+OBJDIR	:= objs
+OBJS	:= $(addprefix $(OBJDIR)/, ${SRCS:.c=.o})
 
 NAME	= miniRT
 
@@ -19,8 +20,9 @@ CFLAGS 	= -Wall -Wextra -Werror #-fsanitize=address
 
 all:		${NAME}
 
-%.o:	%.c
-		@${CC} ${CFLAGS} -Ilibft -I./mlx -c $? -o $@
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -Ilibft -I./mlx -c $< -o $@
 
 ${NAME}:	${OBJS}
 		@$(MAKE) -C libft
@@ -37,7 +39,7 @@ mlx:
 clean:
 			make clean -C libft
 			make clean -C mlx
-			@${RM} ${OBJS}
+			@${RM} -r ${OBJDIR}
 
 fclean:		clean
 			@${RM} ${NAME}
