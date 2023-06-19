@@ -6,7 +6,7 @@
 /*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 09:33:47 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/06/19 10:07:15 by lfabbian         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:29:41 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,12 @@ typedef struct s_color
 	int		blue;
 } t_color;
 
-typedef struct s_initc
+typedef struct s_vec3d
 {
-	float	x;
-	float	y;
-	float	z;
-} t_initc;
-
-typedef struct s_direction
-{
-	float	x;
-	float	y;
-	float	z;
-
-} t_direction;
+	double	x;
+	double	y;
+	double	z;
+} t_vec3d;
 
 /* --------------------------------------------------- */
 /* --------- STRUCTURES RELATED TO THE SCENE --------- */
