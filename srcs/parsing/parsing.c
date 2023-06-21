@@ -36,17 +36,17 @@ void	line_parsing(int fd, char *line, t_rt *rt)
 	while (line)
 	{
 		free (line);
-		if (!ft_strncmp(line, "A ", 2))
+		if (!ft_strncmp(line, "A ", 2) && count_elements(line) == 3)
 			count[0] += ambiance_parsing(line, rt);
-		else if (!ft_strncmp(line, "C ", 2))
+		else if (!ft_strncmp(line, "C ", 2) && count_elements(line) == 4)
 			count[1] += camera_parsing(line, rt);
-		else if (!ft_strncmp(line, "L ", 2))
+		else if (!ft_strncmp(line, "L ", 2) && count_elements(line) == 3)
 			count[2] += light_parsing(line, rt);
-		else if (!ft_strncmp(line, "pl ", 3))
+		else if (!ft_strncmp(line, "pl ", 3) && count_elements(line) == 4)
 			plane_parsing(line, rt);
-		else if (!ft_strncmp(line, "sp ", 3))
+		else if (!ft_strncmp(line, "sp ", 3) && count_elements(line) == 4)
 			sphere_parsing(line, rt);
-		else if (!ft_strncmp(line, "cy ", 3))
+		else if (!ft_strncmp(line, "cy ", 3) && count_elements(line) == 6)
 			cylinder_parsing(line, rt);
 		else
 			print_error("A type is not well defined");

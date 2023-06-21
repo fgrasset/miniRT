@@ -6,7 +6,8 @@
 int		print_error(char *error_message);
 
 /* PARSING */
-void file_parsing(char *file, t_rt *rt);
+void    file_parsing(char *file, t_rt *rt);
+int     count_elements(char *line);
 
 /* MAKE WINDOW */
 void	make_window(t_rt *rt);
