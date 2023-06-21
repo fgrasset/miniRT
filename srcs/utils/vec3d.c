@@ -1,7 +1,7 @@
 
 # include "../../incs/minirt.h"
 
-/* performs a+b */
+/* returns a+b */
 t_v3d	add(t_v3d *a, t_v3d *b)
 {
 	t_v3d	*res;
@@ -12,7 +12,7 @@ t_v3d	add(t_v3d *a, t_v3d *b)
 	return (res);
 }
 
-/* performs a-b */
+/* returns a-b */
 t_v3d	sub(t_v3d *a, t_v3d *b)
 {
 	t_v3d	*res;
@@ -34,7 +34,7 @@ t_v3d	sc_mult(t_v3d *a, double nb)
 	return (nb);
 }
 
-/* performes ||a|| */
+/* returns ||a|| */
 double	norme(t_v3d *a)
 {
 	double res;
@@ -43,7 +43,7 @@ double	norme(t_v3d *a)
 	return (res);
 }
 
-/* performs axb (cross product) */
+/* returns axb (cross product) */
 t_v3d	cross(t_v3d *a, t_v3d *b)
 {
 	t_v3d	*res;
