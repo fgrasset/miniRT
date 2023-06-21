@@ -9,7 +9,6 @@
 # include "../libft/libft.h"
 
 # include "structures.h"
-# include "prototypes.h"
 
 # define WIN_H 800
 # define WIN_W 600
@@ -21,5 +20,7 @@ typedef struct s_rt
 	int		win_h;
 	t_mlbx	*mlbx;
 } t_rt;
+
+# include "prototypes.h"
 
 #endif
