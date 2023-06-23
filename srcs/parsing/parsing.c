@@ -12,7 +12,6 @@ void	plane_parsing(char **tab, t_rt *rt);
 void	sphere_parsing(char **tab, t_rt *rt);
 void	cylinder_parsing(char **tab, t_rt *rt);
 
-
 void	file_parsing(char *file, t_rt *rt)
 {
 	int		fd;
@@ -31,28 +30,29 @@ void	file_parsing(char *file, t_rt *rt)
 
 void	line_parsing(int fd, char *line, t_rt *rt)
 {
-	char **tab;
-	int	count[3];
+	char	**t;
+	int		count[3];
 
 	ft_memset(count, 0, sizeof(count));
 	while (line)
 	{
 		free (line);
-		tab = ft_split(line, ' ');
-		if (!ft_strcmp(tab[0], "A"))
-			count[0] = ambiance_parsing(tab, rt);
-		else if (!ft_strcmp(tab[0], "C"))
-			count[1] += camera_parsing(tab, rt);
-		else if (!ft_strcmp(tab[0], "L"))
-			count[2] += light_parsing(tab, rt);
-		else if ((!ft_strcmp(tab[0], "pl")) || (!ft_strcmp(tab[0], "sp"))
-			|| (!ft_strcmp(tab[0], "cy")))
-			objects_parsing(tab, rt);
+		t = ft_split(line, ' ');
+		if (!t[0])
+			continue ;
+		else if (!cmp(t[0], "A"))
+			count[0] = ambiance_parsing(t, rt);
+		else if (!cmp(t[0], "C"))
+			count[1] += camera_parsing(t, rt);
+		else if (!cmp(t[0], "L"))
+			count[2] += light_parsing(t, rt);
+		else if ((!cmp(t[0], "pl")) || (!cmp(t[0], "sp")) || (!cmp(t[0], "cy")))
+			objects_parsing(t, rt);
 		else
 			print_error("Something is not well defined");
 		if (count[0] > 1 || count[1] > 1 || count[2] > 1)
-				print_error("Too many cameras, lights or ambient lights");
-		free(tab);
+			print_error("Too many cameras, lights or ambient lights");
+		free(t);
 		line = get_next_line(fd);
 	}
 }

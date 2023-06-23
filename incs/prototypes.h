@@ -21,6 +21,6 @@ t_v3d	cross(t_v3d *a, t_v3d *b);
 t_v3d	normalize(t_v3d	*a);
 
 /* UTILS 	*/
-int	ft_strcmp(const char *s1, const char *s2);
+int		cmp(const char *s1, const char *s2);
 
 #endif

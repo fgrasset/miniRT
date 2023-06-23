@@ -15,7 +15,7 @@ int count_elements(char *line)
     return count;
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	cmp(const char *s1, const char *s2)
 {
 	while ((*s1 && *s2) && (*s1 == *s2))
 	{

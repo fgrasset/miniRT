@@ -97,10 +97,10 @@ typedef struct s_light
 /* A scene is defined by some objects, two lights (ambiant & point of light) & one camera */
 typedef struct s_scene
 {
-	t_ambiant	ambiant;
-	t_camera	camera;
+	t_ambiant	amb;
+	t_camera	cam;
 	t_light		light;
-	t_objects	*objects;
+	t_objects	*obj;
 } t_scene;
 
 /* struct for the image of mlbx */
