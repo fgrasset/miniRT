@@ -3,13 +3,14 @@
 void	check_filename(char *file);
 void	line_parsing(int fd, char *line, t_rt *rt);
 
-int		ambiance_parsing(char *line, t_rt *rt);
-int		light_parsing(char *line, t_rt *rt);
-int		camera_parsing(char *line, t_rt *rt);
+int		ambiance_parsing(char **tab, t_rt *rt);
+int		light_parsing(char **tab, t_rt *rt);
+int		camera_parsing(char **tab, t_rt *rt);
 
-void	plane_parsing(char *line, t_rt *rt);
-void	sphere_parsing(char *line, t_rt *rt);
-void	cylinder_parsing(char *line, t_rt *rt);
+void	objects_parsing(char **tab, t_rt *rt);
+void	plane_parsing(char **tab, t_rt *rt);
+void	sphere_parsing(char **tab, t_rt *rt);
+void	cylinder_parsing(char **tab, t_rt *rt);
 
 
 void	file_parsing(char *file, t_rt *rt)
@@ -30,28 +31,28 @@ void	file_parsing(char *file, t_rt *rt)
 
 void	line_parsing(int fd, char *line, t_rt *rt)
 {
+	char **tab;
 	int	count[3];
 
 	ft_memset(count, 0, sizeof(count));
 	while (line)
 	{
 		free (line);
-		if (!ft_strncmp(line, "A ", 2) && count_elements(line) == 3)
-			count[0] += ambiance_parsing(line, rt);
-		else if (!ft_strncmp(line, "C ", 2) && count_elements(line) == 4)
-			count[1] += camera_parsing(line, rt);
-		else if (!ft_strncmp(line, "L ", 2) && count_elements(line) == 3)
-			count[2] += light_parsing(line, rt);
-		else if (!ft_strncmp(line, "pl ", 3) && count_elements(line) == 4)
-			plane_parsing(line, rt);
-		else if (!ft_strncmp(line, "sp ", 3) && count_elements(line) == 4)
-			sphere_parsing(line, rt);
-		else if (!ft_strncmp(line, "cy ", 3) && count_elements(line) == 6)
-			cylinder_parsing(line, rt);
+		tab = ft_split(line, ' ');
+		if (!ft_strcmp(tab[0], "A"))
+			count[0] = ambiance_parsing(tab, rt);
+		else if (!ft_strcmp(tab[0], "C"))
+			count[1] += camera_parsing(tab, rt);
+		else if (!ft_strcmp(tab[0], "L"))
+			count[2] += light_parsing(tab, rt);
+		else if ((!ft_strcmp(tab[0], "pl")) || (!ft_strcmp(tab[0], "sp"))
+			|| (!ft_strcmp(tab[0], "cy")))
+			objects_parsing(tab, rt);
 		else
-			print_error("A type is not well defined");
+			print_error("Something is not well defined");
 		if (count[0] > 1 || count[1] > 1 || count[2] > 1)
-			print_error("Too many cameras, lights or ambient lights");
+				print_error("Too many cameras, lights or ambient lights");
+		free(tab);
 		line = get_next_line(fd);
 	}
 }

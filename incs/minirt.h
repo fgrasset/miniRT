@@ -19,6 +19,7 @@ typedef struct s_rt
 	int		win_w;
 	int		win_h;
 	t_mlbx	*mlbx;
+	t_scene	*sc;
 } t_rt;
 
 # include "prototypes.h"
