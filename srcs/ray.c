@@ -64,7 +64,7 @@ void	make_ray(t_rt *rt)
 	int	r_v;
 
 	(void) r_v;
-	d = 2 * tan(rt->sc->camera.fov / 2);
-	r_h = 2 * tan(rt->sc->camera.fov / 2) / WIN_W;
+	d = 2 * tan(rt->sc->cam.fov / 2);
+	r_h = 2 * tan(rt->sc->cam.fov / 2) / WIN_W;
 
 }

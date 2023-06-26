@@ -2,7 +2,7 @@
 
 int		destroy(t_rt *rt);
 int		display(t_rt *rt);
-void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color);
+void	my_mlx_pixel_put(t_img img, int x, int y, int color);
 void	background(t_rt	*rt);
 
 
@@ -14,11 +14,12 @@ void	make_window(t_rt *rt)
 	mlbx = malloc(sizeof(t_mlbx));
 	rt->mlbx = mlbx;
 	rt->mlbx->mlx = mlx_init();
-	rt->mlbx->mlx_win = mlx_new_window(rt->mlbx->mlx,rt->win_w, rt->win_h, "MiniRT");
-	rt->mlbx->img.img = mlx_new_image(rt->mlbx->mlx, rt->win_w, rt->win_h);
-	rt->mlbx->img.addr = mlx_get_data_addr(rt->mlbx->img.img, &rt->mlbx->img.bits_per_pixel, &rt->mlbx->img.line_length, &rt->mlbx->img.endian);
-	mlx_hook(rt->mlbx->mlx_win, 17, 0, destroy, rt);
-	mlx_loop_hook(rt->mlbx->mlx, display, rt);
+	rt->mlbx->mlx_win = mlx_new_window(mlbx->mlx,WIN_W, WIN_H, "MiniRT");
+	rt->mlbx->img.img = mlx_new_image(mlbx->mlx, WIN_W, WIN_H);
+	rt->mlbx->img.addr = mlx_get_data_addr(mlbx->img.img, &mlbx->img.bits_per_pixel, &mlbx->img.line_length, &mlbx->img.endian);
+	mlx_hook(mlbx->mlx_win, 17, 0, destroy, rt);
+	mlx_loop_hook(mlbx->mlx, display, rt);
+	mlx_loop(mlbx->mlx);
 }
 
 /* close the window and exit the program */
@@ -39,14 +40,14 @@ int	display(t_rt *rt)
 }
 
 /* draws a pixel at (x, y) in color */
-void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
+void	my_mlx_pixel_put(t_img img, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x < rt->win_w && y >= 0 && y < rt->win_h)
+	if (x >= 0 && x < WIN_W && y >= 0 && y < WIN_H)
 	{
-		dst = rt->mlbx->img.addr + (y * rt->mlbx->img.line_length + \
-		x * (rt->mlbx->img.bits_per_pixel / 8));
+		dst = img.addr + (y * img.line_length + \
+		x * (img.bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
 }
@@ -58,12 +59,12 @@ void	background(t_rt	*rt)
 	int	width;
 
 	height = -1;
-	while (++height < rt->win_h)
+	while (++height < WIN_H)
 	{
 		width = -1;
-		while (++width < rt->win_w)
+		while (++width < WIN_W)
 		{
-			my_mlx_pixel_put(rt, width, height, 0xfffafa);
+			my_mlx_pixel_put(rt->mlbx->img, width, height, 0x0000ff);
 		}
 	}
 }

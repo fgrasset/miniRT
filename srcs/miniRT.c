@@ -7,10 +7,11 @@ int	main(int argc, char **argv)
 {
 	t_rt	*rt;
 
+	(void) argv;
 	rt = malloc(sizeof(t_rt));
 	if (argc == 2)
 	{
-		file_parsing(argv[1], rt);
+		// file_parsing(argv[1], rt);
 		make_window(rt);
 	}
 	else

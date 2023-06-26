@@ -10,8 +10,8 @@
 
 # include "structures.h"
 
+# define WIN_W 1200
 # define WIN_H 800
-# define WIN_W 600
 
 /* main structure used for everything */
 typedef struct s_rt
