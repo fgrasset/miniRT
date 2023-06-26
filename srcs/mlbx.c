@@ -2,7 +2,6 @@
 
 int		destroy(t_rt *rt);
 int		display(t_rt *rt);
-void	my_mlx_pixel_put(t_img img, int x, int y, int color);
 void	background(t_rt	*rt);
 
 

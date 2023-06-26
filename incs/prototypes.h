@@ -11,6 +11,7 @@ int     count_elements(char *line);
 
 /* MAKE WINDOW */
 void	make_window(t_rt *rt);
+void	my_mlx_pixel_put(t_img img, int x, int y, int color);
 
 /* v3d */
 t_v3d	add(t_v3d *a, t_v3d *b);

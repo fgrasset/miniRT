@@ -83,7 +83,7 @@ typedef struct s_camera
 	char	*id;
 	double	fov;
 	t_v3d	coord;
-	t_v3d	dir;
+	t_v3d	dir;		//pas sur que ca soit util, je pense que chaque ray aura son propre vecteur directeur
 	// t_initc	init;
 } t_camera;
 
@@ -120,6 +120,14 @@ typedef struct s_mlbx
 	void	*mlx_win;
 	t_img	img;
 } t_mlbx;
+
+/* A single ray */
+typedef struct s_ray
+{
+	t_v3d	v_dir;
+	t_v3d	coord;
+	t_color	rgb;
+} t_ray;
 
 /* --------------------------------------------------- */
 

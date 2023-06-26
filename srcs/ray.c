@@ -1,6 +1,12 @@
 
 # include "../incs/minirt.h"
 
+t_v3d	normalize(t_v3d	*a);
+t_v3d	make_v_dir(t_rt *rt, int i, int j);
+t_ray	make_ray(t_rt *rt, t_v3d v_dir);
+void	launch_rays(t_rt *rt);
+
+
 // /* gets the size of the screen and adds it to the rt struct */
 // void	make_ray(t_rt *rt)
 // {
@@ -42,29 +48,71 @@
 // 	}
 // }
 
-// /* normalizes the given vector */
-// t_v3d	normalize(t_v3d	*a)
-// {
-// 	t_v3d	*res;
-// 	double	norm;
-
-// 	norm = norme(a);
-// 	res->x = a->x / norm;
-// 	res->y = a->y / norm;
-// 	res->z = a->z / norm;
-
-// 	return (res);
-// }
-
-
-void	make_ray(t_rt *rt)
+/* normalizes the given vector */
+t_v3d	normalize(t_v3d	*a)
 {
-	int	d;
-	int	r_h;
-	int	r_v;
+	t_v3d	*res;
+	double	norm;
 
-	(void) r_v;
-	d = 2 * tan(rt->sc->cam.fov / 2);
-	r_h = 2 * tan(rt->sc->cam.fov / 2) / WIN_W;
+	res = NULL;
+	norm = norme(a);
+	res->x = a->x / norm;
+	res->y = a->y / norm;
+	res->z = a->z / norm;
 
+	return (*res);
+}
+
+/* creates all of the rays */
+void	launch_rays(t_rt *rt)
+{
+	int		x;
+	int		y;
+	t_ray	ray;
+
+	x = -1;
+	while (++x < WIN_W)
+	{
+		y = -1;
+		while (++y < WIN_H)
+		{
+			ray = make_ray(rt, make_v_dir(rt, x, y));
+			//get_color(rt, ray);		TODO
+		}
+		// my_mlx_pixel_put(rt->mlbx->img, x, y, ray->rgb);	//make a function to transfer from rgb to an int for the pixel put function
+	}
+}
+
+/* creates a ray */
+t_ray	make_ray(t_rt *rt, t_v3d v_dir)
+{
+	t_ray	ray;
+
+	ray.coord = rt->sc->cam.coord;
+	ray.v_dir = v_dir;
+	return(ray);
+}
+
+/* creates the v_dir based on the cam's infos */
+t_v3d	make_v_dir(t_rt *rt, int x, int y)
+{
+	t_v3d	*v_dir;
+	double	a;
+	double	b;
+	double	c;
+	int		max;
+
+	v_dir = NULL;
+	a = y + 0.5 - WIN_W * 0.5;
+	b = x + 0.5 - WIN_H * 0.5;
+	if (WIN_W > WIN_H)
+		max = WIN_W;
+	else
+		max = WIN_H;
+	c = max / (2 * tan((rt->sc->cam.fov * M_PI * 0.5) / 180.0));
+	v_dir->x = 1 * a + 0 * b + 0 * c;
+	v_dir->y = 0 * a + 1 * b + 0 * c;
+	v_dir->z = 0 * a + 0 * b + 1 * c;
+
+	return(normalize(v_dir));
 }
