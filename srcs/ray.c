@@ -2,7 +2,7 @@
 # include "../incs/minirt.h"
 
 t_v3d	normalize(t_v3d	*a);
-t_v3d	make_v_dir(t_rt *rt, int i, int j);
+t_v3d	make_v_dir(t_rt *rt, double i, double j);
 t_ray	make_ray(t_rt *rt, t_v3d v_dir);
 void	launch_rays(t_rt *rt);
 
@@ -49,7 +49,7 @@ void	launch_rays(t_rt *rt);
 // }
 
 /* normalizes the given vector */
-t_v3d	normalize(t_v3d	*a)
+t_v3d	*normalize(t_v3d	*a)
 {
 	t_v3d	*res;
 	double	norm;
@@ -66,8 +66,8 @@ t_v3d	normalize(t_v3d	*a)
 /* creates all of the rays */
 void	launch_rays(t_rt *rt)
 {
-	int		x;
-	int		y;
+	double	x;
+	double	y;
 	t_ray	ray;
 
 	x = -1;
@@ -94,25 +94,39 @@ t_ray	make_ray(t_rt *rt, t_v3d v_dir)
 }
 
 /* creates the v_dir based on the cam's infos */
-t_v3d	make_v_dir(t_rt *rt, int x, int y)
+t_v3d	make_v_dir(t_rt *rt, double x, double y)
 {
 	t_v3d	*v_dir;
-	double	a;
-	double	b;
-	double	c;
-	int		max;
+	t_v3d	*screen_pos;
+	// double	a;
+	// double	b;
+	// double	c;
+	// int		max;
 
-	v_dir = NULL;
-	a = y + 0.5 - WIN_W * 0.5;
-	b = x + 0.5 - WIN_H * 0.5;
-	if (WIN_W > WIN_H)
-		max = WIN_W;
-	else
-		max = WIN_H;
-	c = max / (2 * tan((rt->sc->cam.fov * M_PI * 0.5) / 180.0));
-	v_dir->x = 1 * a + 0 * b + 0 * c;
-	v_dir->y = 0 * a + 1 * b + 0 * c;
-	v_dir->z = 0 * a + 0 * b + 1 * c;
+	// v_dir = NULL;
+	// a = y + 0.5 - WIN_W * 0.5;
+	// b = x + 0.5 - WIN_H * 0.5;
+	// if (WIN_W > WIN_H)
+	// 	max = WIN_W;
+	// else
+	// 	max = WIN_H;
+	// c = max / (2 * tan((rt->sc->cam.fov * M_PI * 0.5) / 180.0));
+	// v_dir->x = 1 * a + 0 * b + 0 * c;
+	// v_dir->y = 0 * a + 1 * b + 0 * c;
+	// v_dir->z = 0 * a + 0 * b + 1 * c;
+
+	double	screen_x;
+	double	screen_y;
+	double	v_fov;
+	double	h_fov;
+
+	screen_x = (x / (double)WIN_W) * 2 -1;
+	screen_y = (y / (double)WIN_H) * 2 -1;
+	v_fov = rt->sc->cam.fov_h * M_PI / 180.0;
+	h_fov = 2 * atan(tan(v_fov / 2) * (WIN_W / WIN_H));
+
+	//scale the pixel to the screen dimensions
+	screen_pos->x =
 
 	return(normalize(v_dir));
 }

@@ -14,7 +14,7 @@ t_v3d	add(t_v3d *a, t_v3d *b)
 }
 
 /* returns a-b */
-t_v3d	sub(t_v3d *a, t_v3d *b)
+t_v3d	*sub(t_v3d *a, t_v3d *b)
 {
 	t_v3d	*res;
 

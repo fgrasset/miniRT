@@ -81,7 +81,7 @@ typedef struct s_ambiant
 typedef struct s_camera
 {
 	char	*id;
-	double	fov;
+	double	fov_h;
 	t_v3d	coord;
 	t_v3d	dir;
 	// t_initc	init;
