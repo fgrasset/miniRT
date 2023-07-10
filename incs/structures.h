@@ -83,7 +83,7 @@ typedef struct s_camera
 	char	*id;
 	double	fov;
 	t_v3d	coord;
-	t_v3d	dir;		//pas sur que ca soit util, je pense que chaque ray aura son propre vecteur directeur
+	t_v3d	dir;
 	// t_initc	init;
 } t_camera;
 
