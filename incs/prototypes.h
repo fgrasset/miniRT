@@ -21,6 +21,11 @@ double	norme(t_v3d *a);
 t_v3d	cross(t_v3d *a, t_v3d *b);
 t_v3d	*normalize(t_v3d	*a);
 
+/* MATH */
+double	quad(double a, double b, double c);
+double	dot_product(t_v3d *a, t_v3d *b);
+
+
 /* UTILS 	*/
 int		cmp(const char *s1, const char *s2);
 

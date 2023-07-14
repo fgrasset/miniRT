@@ -129,6 +129,15 @@ typedef struct s_ray
 	t_color	rgb;
 } t_ray;
 
+/* struct for intersections */
+typedef struct s_inter
+{
+	union	u_figures obj;
+	double	dist;
+	t_v3d	point;
+	t_v3d	normal;
+} t_inter;
+
 /* --------------------------------------------------- */
 
 #endif

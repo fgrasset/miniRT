@@ -12,6 +12,7 @@
 
 # define WIN_W 1200
 # define WIN_H 800
+# define INFINITY 0
 
 /* main structure used for everything */
 typedef struct s_rt
