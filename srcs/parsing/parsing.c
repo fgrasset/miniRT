@@ -1,17 +1,5 @@
 #include "../../incs/minirt.h"
 
-void	check_filename(char *file);
-void	line_parsing(int fd, char *line, t_rt *rt);
-
-int		ambiance_parsing(char **tab, t_rt *rt);
-int		light_parsing(char **tab, t_rt *rt);
-int		camera_parsing(char **tab, t_rt *rt);
-
-void	objects_parsing(char **tab, t_rt *rt);
-void	plane_parsing(char **tab, t_rt *rt);
-void	sphere_parsing(char **tab, t_rt *rt);
-void	cylinder_parsing(char **tab, t_rt *rt);
-
 void	file_parsing(char *file, t_rt *rt)
 {
 	int		fd;
@@ -24,37 +12,39 @@ void	file_parsing(char *file, t_rt *rt)
 	line = get_next_line(fd);
 	if (!line)
 		print_error("Empty file");
+	rt->sc = malloc(sizeof(t_scene));
+	if (!rt->sc)
+		print_error("Malloc error for scene");
+	line = clean_line(line);
 	line_parsing(fd, line, rt);
-	close (fd);
+	if (close (fd) == -1)
+		print_error("Error while closing file");
 }
 
 void	line_parsing(int fd, char *line, t_rt *rt)
 {
-	char	**t;
-	int		count[3];
-
-	ft_memset(count, 0, sizeof(count));
 	while (line)
 	{
-		free (line);
-		t = ft_split(line, ' ');
-		if (!t[0])
-			continue ;
-		else if (!cmp(t[0], "A"))
-			count[0] = ambiance_parsing(t, rt);
-		else if (!cmp(t[0], "C"))
-			count[1] += camera_parsing(t, rt);
-		else if (!cmp(t[0], "L"))
-			count[2] += light_parsing(t, rt);
-		else if ((!cmp(t[0], "pl")) || (!cmp(t[0], "sp")) || (!cmp(t[0], "cy")))
-			objects_parsing(t, rt);
+		if (!ft_strncmp(line, "A ", 2))
+			ambiance_parsing(line, rt);
+		else if (!ft_strncmp(line, "C ", 2))
+			camera_parsing(line, rt);
+		else if (!ft_strncmp(line, "L ", 2))
+			light_parsing(line, rt);
+		else if (!ft_strncmp(line, "pl ", 3))
+			objects_parsing(line, rt);
+		else if (!ft_strncmp(line, "sp ", 3))
+			objects_parsing(line, rt);
+		else if (!ft_strncmp(line, "cy ", 3))
+			objects_parsing(line, rt);
 		else
-			print_error("Something is not well defined");
-		if (count[0] > 1 || count[1] > 1 || count[2] > 1)
-			print_error("Too many cameras, lights or ambient lights");
-		free(t);
+			print_error("A type is not well defined");
+		free (line);
 		line = get_next_line(fd);
+		if (line)
+			line = clean_line(line);
 	}
+	free (line);
 }
 
 void	check_filename(char *file)

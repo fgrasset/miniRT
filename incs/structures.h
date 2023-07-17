@@ -28,26 +28,26 @@ typedef struct s_v3d
 typedef struct s_sphere
 {
 	char	*id;
-	t_v3d	init;
-	double	diameter;
+	t_v3d	coord;
+	double	d;
 	t_color	color;
 } t_sphere;
 
 typedef struct s_plane
 {
 	char	*id;
-	t_v3d	init;
-	t_v3d	orientation;
+	t_v3d	coord;
+	t_v3d	ori;
 	t_color	color;
 } t_plane;
 
 typedef struct s_cylinder
 {
 	char	*id;
-	t_v3d init;
+	t_v3d coord;
 	t_v3d norm_vec;
-	double	diameter;
-	double	height;
+	double	d;
+	double	h;
 	t_color	color;
 
 } t_cylinder;
@@ -81,9 +81,9 @@ typedef struct s_ambiant
 typedef struct s_camera
 {
 	char	*id;
-	double	fov_h;
+	double	fov;
 	t_v3d	coord;
-	t_v3d	dir;
+	t_v3d	ori;
 	// t_initc	init;
 } t_camera;
 
@@ -91,7 +91,7 @@ typedef struct s_light
 {
 	char	*id;
 	float	ratio;
-	// t_initc	init;
+	t_v3d	coord;
 } t_light;
 
 /* A scene is defined by some objects, two lights (ambiant & point of light) & one camera */

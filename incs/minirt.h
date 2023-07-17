@@ -4,6 +4,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
+# include <stdbool.h>
 
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
@@ -12,7 +13,6 @@
 
 # define WIN_W 1200
 # define WIN_H 800
-# define INFINITY 0
 
 /* main structure used for everything */
 typedef struct s_rt

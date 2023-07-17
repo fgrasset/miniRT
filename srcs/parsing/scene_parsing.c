@@ -1,25 +1,78 @@
 #include "../../incs/minirt.h"
 
-/* A 	0.2			255,255,255*/
-int	ambiance_parsing(char **tab, t_rt *rt)
+void	ambiance_parsing(char *line, t_rt *rt)
 {
-	(void) tab;
-	(void) rt;
-	return (1);
+	int			i;
+	char		**tab;
+	t_ambiant	amb;
+
+	i = 0;
+	if (rt->sc->amb.id)
+		print_error("Too many ambiance lights - 1 or 0 needed");
+	tab = ft_split(line, ' '); 						//proteger malloc s'il me reste de la place mdr
+	ft_bzero(&amb, sizeof(t_ambiant));
+	amb.id = "A";
+	if (count_elements(tab) != 3)
+		print_error("wrong number of elements for ambiance");
+	while (tab[++i])
+	{
+		if (i == 1)
+			amb.ratio = parse_ratio(tab[i], amb.ratio);
+		else if (i == 2)
+			amb.color = parse_color(tab[i], amb.color);
+	}
+	rt->sc->amb = amb;
+	free_tab(tab);
 }
 
-/* L 	-40,0,30	0.7 */
-int	light_parsing(char **tab, t_rt *rt)
+void	light_parsing(char *line, t_rt *rt)
 {
-	(void) tab;
-	(void) rt;
-	return (1);
+	t_light	light;
+	int	i;
+	char **tab;
+
+	i = 0;
+	if (rt->sc->light.id)
+		print_error("Too many lights - 1 or 0 needed");
+	tab = ft_split(line, ' ');	//proteger malloc s'il me reste de la place mdr
+	ft_bzero(&light, sizeof(t_light));
+	light.id = "L";
+	if (count_elements(tab) != 3)
+		print_error("wrong number of elements for the light");
+	while (tab[++i])
+	{
+		if (i == 1)
+			light.coord = parse_coord(tab[i], light.coord);
+		else if (i == 2)
+			light.ratio = parse_ratio(tab[i], light.ratio);
+	}
+	rt->sc->light = light;
+	free_tab(tab);
 }
 
-/* C 	-50,0,20	0,0,0 70 */
-int	camera_parsing(char **tab, t_rt *rt)
+void	camera_parsing(char *line, t_rt *rt)
 {
-	(void) tab;
-	(void) rt;
-	return (1);
+	t_camera	cam;
+	char	**tab;
+	int	i;
+
+	i = 0;
+	if (rt->sc->cam.id)
+		print_error("Too many cameras - 1 or 0 needed");
+	tab = ft_split(line, ' ');	//proteger malloc s'il me reste de la place mdr
+	ft_bzero(&cam, sizeof(t_camera));
+	cam.id = "C";
+	if (count_elements(tab) != 4)
+		print_error("wrong number of elements for the camera");
+	while (tab[++i])
+	{
+		if (i == 1)
+			cam.coord = parse_coord(tab[i], cam.coord);
+		else if (i == 2)
+			cam.ori = parse_vector(tab[i], cam.ori);
+		else if (i == 3)
+			cam.fov = parse_other(tab[i], cam.fov, 1);
+	}
+	rt->sc->cam = cam;
+	free_tab(tab);
 }
