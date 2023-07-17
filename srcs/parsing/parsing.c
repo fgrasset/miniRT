@@ -12,9 +12,13 @@ void	file_parsing(char *file, t_rt *rt)
 	line = get_next_line(fd);
 	if (!line)
 		print_error("Empty file");
+	ft_printf("hello\n");
 	rt->sc = malloc(sizeof(t_scene));
 	if (!rt->sc)
 		print_error("Malloc error for scene");
+	rt->sc->amb.id = 0;
+	rt->sc->cam.id = 0;
+	rt->sc->light.id = 0;
 	line = clean_line(line);
 	line_parsing(fd, line, rt);
 	if (close (fd) == -1)

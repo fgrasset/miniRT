@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minirt.h"
+#include "../../incs/minirt.h"
 
 t_objects	*last_object(t_objects	*lst)
 {

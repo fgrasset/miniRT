@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minirt.h"
+#include "../../incs/minirt.h"
 
 int	is_float(char *str)
 {
