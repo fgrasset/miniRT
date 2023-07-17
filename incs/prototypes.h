@@ -41,16 +41,16 @@ void	make_window(t_rt *rt);
 void	my_mlx_pixel_put(t_img img, int x, int y, int color);
 
 /* v3d */
-t_v3d	add(t_v3d *a, t_v3d *b);
-t_v3d	*sub(t_v3d *a, t_v3d *b);
-t_v3d	sc_mult(t_v3d *a, double nb);
-double	norme(t_v3d *a);
-t_v3d	cross(t_v3d *a, t_v3d *b);
-t_v3d	*normalize(t_v3d	*a);
+t_v3d	add(t_v3d a, t_v3d b);
+t_v3d	sub(t_v3d a, t_v3d b);
+t_v3d	sc_mult(t_v3d a, double nb);
+double	norme(t_v3d a);
+t_v3d	cross(t_v3d a, t_v3d b);
+t_v3d	normalize(t_v3d	a);
 
 /* MATH */
 double	quad(double a, double b, double c);
-double	dot_product(t_v3d *a, t_v3d *b);
+double	dot_product(t_v3d a, t_v3d b);
 
 
 /* UTILS 	*/

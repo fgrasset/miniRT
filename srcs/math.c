@@ -9,19 +9,21 @@ double	quad(double a, double b, double c)
 	double	delta;
 	double	sub;
 	double	add;
-	double	res;
 
 	delta = b * b - 4 * a * c;
 	if (delta < 0)
 		return (0);
 	add = (-b + sqrt(delta)) / (2 * a);
 	sub = (-b - sqrt(delta)) / (2 * a);
-	res = min(sub, add);
+	if (sub < add)
+		return (sub);
+	else
+		return (add);
 }
 
 /* returns the dot product of 2 vectors */
-double dot_product(t_v3d *a, t_v3d *b)
+double dot_product(t_v3d a, t_v3d b)
 {
-	return (a->x*b->x + a->y*b->y + a->z*b->z);
+	return (a.x*b.x + a.y*b.y + a.z*b.z);
 }
 
