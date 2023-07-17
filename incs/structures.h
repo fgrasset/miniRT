@@ -59,9 +59,17 @@ union			u_figures
 	t_cylinder	cy;
 };
 
+typedef enum
+{
+	SPHERE,
+	PLANE,
+	CYLINDER
+} FigureType;
+
 /* Linked list for all the objects in the scene */
 typedef struct s_objects
 {
+	FigureType type;
 	union u_figures	fig;
 	struct s_objects *next;
 } t_objects;

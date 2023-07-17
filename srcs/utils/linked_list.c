@@ -1,2 +1,0 @@
-#include "../../incs/minirt.h"
-

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/17 13:37:39 by lfabbian          #+#    #+#             */
+/*   Updated: 2023/07/17 13:37:40 by lfabbian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/minirt.h"
 
 void	file_parsing(char *file, t_rt *rt)
@@ -12,7 +24,6 @@ void	file_parsing(char *file, t_rt *rt)
 	line = get_next_line(fd);
 	if (!line)
 		print_error("Empty file");
-	ft_printf("hello\n");
 	rt->sc = malloc(sizeof(t_scene));
 	if (!rt->sc)
 		print_error("Malloc error for scene");
@@ -41,7 +52,7 @@ void	line_parsing(int fd, char *line, t_rt *rt)
 			objects_parsing(line, rt);
 		else if (!ft_strncmp(line, "cy ", 3))
 			objects_parsing(line, rt);
-		else
+		else if (!(line[0] == '\0'))
 			print_error("A type is not well defined");
 		free (line);
 		line = get_next_line(fd);

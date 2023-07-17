@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scene_parsing.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/17 13:32:49 by lfabbian          #+#    #+#             */
+/*   Updated: 2023/07/17 13:34:31 by lfabbian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/minirt.h"
 
 void	ambiance_parsing(char *line, t_rt *rt)
@@ -9,7 +21,9 @@ void	ambiance_parsing(char *line, t_rt *rt)
 	i = 0;
 	if (rt->sc->amb.id)
 		print_error("Too many ambiance lights - 1 or 0 needed");
-	tab = ft_split(line, ' '); 						//proteger malloc s'il me reste de la place mdr
+	tab = ft_split(line, ' ');
+	if (!tab)
+		print_error("Malloc failed");
 	ft_bzero(&amb, sizeof(t_ambiant));
 	amb.id = "A";
 	if (count_elements(tab) != 3)
@@ -28,13 +42,15 @@ void	ambiance_parsing(char *line, t_rt *rt)
 void	light_parsing(char *line, t_rt *rt)
 {
 	t_light	light;
-	int	i;
-	char **tab;
+	int		i;
+	char	**tab;
 
 	i = 0;
 	if (rt->sc->light.id)
 		print_error("Too many lights - 1 or 0 needed");
-	tab = ft_split(line, ' ');	//proteger malloc s'il me reste de la place mdr
+	tab = ft_split(line, ' ');
+	if (!tab)
+		print_error("Malloc failed");
 	ft_bzero(&light, sizeof(t_light));
 	light.id = "L";
 	if (count_elements(tab) != 3)
@@ -53,13 +69,15 @@ void	light_parsing(char *line, t_rt *rt)
 void	camera_parsing(char *line, t_rt *rt)
 {
 	t_camera	cam;
-	char	**tab;
-	int	i;
+	char		**tab;
+	int			i;
 
 	i = 0;
 	if (rt->sc->cam.id)
 		print_error("Too many cameras - 1 or 0 needed");
-	tab = ft_split(line, ' ');	//proteger malloc s'il me reste de la place mdr
+	tab = ft_split(line, ' ');
+	if (!tab)
+		print_error("Malloc failed");
 	ft_bzero(&cam, sizeof(t_camera));
 	cam.id = "C";
 	if (count_elements(tab) != 4)

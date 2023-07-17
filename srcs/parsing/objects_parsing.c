@@ -1,15 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   objects_parsing.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/17 13:38:22 by lfabbian          #+#    #+#             */
+/*   Updated: 2023/07/17 13:44:32 by lfabbian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/minirt.h"
 
-/* pl 	0,0,0		0,1.0,0		255,0,225 */
-t_plane	plane_parsing(char *line, t_rt *rt)
+t_plane	plane_parsing(char *line)
 {
-	(void) rt;
 	int			i;
 	char		**tab;
 	t_plane		plane;
 
 	i = 0;
-	tab = ft_split(line, ' '); 						//proteger malloc s'il me reste de la place mdr
+	tab = ft_split(line, ' ');
 	ft_bzero(&plane, sizeof(t_plane));
 	plane.id = "pl";
 	if (count_elements(tab) != 4)
@@ -27,15 +37,14 @@ t_plane	plane_parsing(char *line, t_rt *rt)
 	return (plane);
 }
 
-t_sphere	sphere_parsing(char *line, t_rt *rt)
+t_sphere	sphere_parsing(char *line)
 {
-	(void) rt;
 	int			i;
 	char		**tab;
 	t_sphere	sphere;
 
 	i = 0;
-	tab = ft_split(line, ' '); 						//proteger malloc s'il me reste de la place mdr
+	tab = ft_split(line, ' ');
 	ft_bzero(&sphere, sizeof(t_sphere));
 	sphere.id = "sp";
 	if (count_elements(tab) != 4)
@@ -53,17 +62,16 @@ t_sphere	sphere_parsing(char *line, t_rt *rt)
 	return (sphere);
 }
 
-t_cylinder	cylinder_parsing(char *line, t_rt *rt)
+t_cylinder	cylinder_parsing(char *line)
 {
-	(void) rt;
 	int			i;
 	char		**tab;
 	t_cylinder	cylinder;
 
 	i = 0;
-	tab = ft_split(line, ' '); 						//proteger malloc s'il me reste de la place mdr
+	tab = ft_split(line, ' ');
 	ft_bzero(&cylinder, sizeof(t_cylinder));
-	cylinder.id = "sp";
+	cylinder.id = "cy";
 	if (count_elements(tab) != 6)
 		print_error("wrong number of elements for cylinder");
 	while (tab[++i])
@@ -83,19 +91,28 @@ t_cylinder	cylinder_parsing(char *line, t_rt *rt)
 	return (cylinder);
 }
 
-void	objects_parsing(char *line, t_rt *rt) //ajout dans liste chainee ??
+void	objects_parsing(char *line, t_rt *rt)
 {
-	t_objects *new_object;
+	t_objects	*new_object;
 
 	new_object = malloc(sizeof(t_objects));
 	if (!new_object)
 		print_error("malloc for new object failed");
 	if (!ft_strncmp(line, "pl ", 3))
-		new_object->fig.pl = plane_parsing(line, rt);
+	{
+		new_object->type = PLANE;
+		new_object->fig.pl = plane_parsing(line);
+	}
 	else if (!ft_strncmp(line, "sp ", 3))
-		new_object->fig.sp = sphere_parsing(line, rt);
+	{
+		new_object->type = SPHERE;
+		new_object->fig.sp = sphere_parsing(line);
+	}
 	else if (!ft_strncmp(line, "cy ", 3))
-		new_object->fig.cy = cylinder_parsing(line, rt);
+	{
+		new_object->type = CYLINDER;
+		new_object->fig.cy = cylinder_parsing(line);
+	}
 	new_object->next = NULL;
 	object_add_end(&rt->sc->obj, new_object);
 }

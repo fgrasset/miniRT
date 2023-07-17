@@ -18,7 +18,6 @@ void	light_parsing(char *line, t_rt *rt);
 void	camera_parsing(char *line, t_rt *rt);
 
 void	objects_parsing(char *line, t_rt *rt);
-t_plane	plane_parsing(char *line, t_rt *rt);
 
 t_objects	*last_object(t_objects	*lst);
 void	object_add_end(t_objects **lst, t_objects *new);
@@ -59,5 +58,6 @@ int		cmp(const char *s1, const char *s2);
 /* FREE */
 void    free_structures(t_rt *rt);
 void    free_tab(char **tab);
+void    free_objects(t_rt *rt);
 
 #endif
