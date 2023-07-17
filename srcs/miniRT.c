@@ -13,6 +13,7 @@ int	main(int argc, char **argv)
 	{
 		file_parsing(argv[1], rt);
 		print_objects(rt->sc->obj);
+		launch_rays(rt);
 		make_window(rt);
 		free_structures(rt);
 	}

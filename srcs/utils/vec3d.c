@@ -53,3 +53,14 @@ t_v3d	cross(t_v3d a, t_v3d b)
 	res.z = a.x * b.y - a.y * b.x;
 	return (res);
 }
+
+/* multiplies 2 vectors */
+t_v3d	mult(t_v3d a, t_v3d b)
+{
+	t_v3d	res;
+
+	res.x = a.x * b.x;
+	res.y = a.y * b.y;
+	res.z = a.z * b.z;
+	return (res);
+}

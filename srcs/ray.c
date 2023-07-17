@@ -4,7 +4,6 @@
 t_v3d	normalize(t_v3d	a);
 t_v3d	make_v_dir(t_rt *rt, double i, double j);
 t_ray	make_ray(t_rt *rt, t_v3d v_dir);
-void	launch_rays(t_rt *rt);
 
 
 // /* gets the size of the screen and adds it to the rt struct */

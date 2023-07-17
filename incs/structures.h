@@ -140,6 +140,7 @@ typedef struct s_ray
 /* struct for intersections */
 typedef struct s_inter
 {
+	FigureType	type;
 	union	u_figures obj;
 	double	dist;
 	t_v3d	point;

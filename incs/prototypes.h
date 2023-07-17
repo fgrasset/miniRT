@@ -39,6 +39,11 @@ float   parse_other(char *line, float element, int i);
 void	make_window(t_rt *rt);
 void	my_mlx_pixel_put(t_img img, int x, int y, int color);
 
+/* RAYS */
+void	launch_rays(t_rt *rt);
+t_inter	*intersect_plane(t_ray *ray, t_plane *plane);
+
+
 /* v3d */
 t_v3d	add(t_v3d a, t_v3d b);
 t_v3d	sub(t_v3d a, t_v3d b);
@@ -46,6 +51,7 @@ t_v3d	sc_mult(t_v3d a, double nb);
 double	norme(t_v3d a);
 t_v3d	cross(t_v3d a, t_v3d b);
 t_v3d	normalize(t_v3d	a);
+t_v3d	mult(t_v3d a, t_v3d b);
 
 /* MATH */
 double	quad(double a, double b, double c);
