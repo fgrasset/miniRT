@@ -1,6 +1,5 @@
 #include "../incs/minirt.h"
 
-void	initialize(t_rt *rt);
 void print_objects(const t_objects *obj);
 
 int	main(int argc, char **argv)
@@ -14,7 +13,7 @@ int	main(int argc, char **argv)
 		file_parsing(argv[1], rt);
 		print_objects(rt->sc->obj);
 		launch_rays(rt);
-		make_window(rt);
+		// make_window(rt);
 		free_structures(rt);
 	}
 	else
@@ -22,13 +21,6 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("\033[31m2 args needed :\n\033[0m", 2);
 		ft_putstr_fd("\033[31m./miniRT [scene_path]\n\033[0m", 2);
 	}
-}
-
-/* initialize the structure */
-void	initialize(t_rt *rt)
-{
-	rt->win_h = 600;
-	rt->win_w = 1000;
 }
 
 /*

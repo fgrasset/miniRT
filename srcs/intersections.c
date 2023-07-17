@@ -30,6 +30,11 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 		// 	intersect_cylinder();
 		// closest = curr_fig->fig.
 		// Idea is to use intersect function from each object and get the closer one to return it once we have checked every object
+		// printf("distance: %f\n", closest->dist);
+		// printf("point : \n");
+		// print_v3d(closest->point);
+		// printf("normal : \n");
+		// print_v3d(closest->normal);
 		curr_fig = curr_fig->next;
 	}
 	return (closest);

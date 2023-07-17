@@ -5,48 +5,6 @@ t_v3d	normalize(t_v3d	a);
 t_v3d	make_v_dir(t_rt *rt, double i, double j);
 t_ray	make_ray(t_rt *rt, t_v3d v_dir);
 
-
-// /* gets the size of the screen and adds it to the rt struct */
-// void	make_ray(t_rt *rt)
-// {
-// 	double	fov_radian;
-// 	t_v3d	*forward;
-// 	t_v3d	*right;
-// 	t_v3d	*up;
-
-// 	// fov_radian = rt->camera->fov * M_PI / 180.0;
-// 	// rt->win_h = 2.0 *tan(fov_radian / 2.0);
-// 	// rt->win_w = rt->win_h /(WIN_W / WIN_H);
-// 	// forward = normalize(rt->camera->dir);
-// 	// right = cross(up_vector, forward)	//pas sur que c'est ce qu'il faut faire, mais a tester, need to define up_vector
-// 	up = cross(forward, right);
-// 	launch_ray(rt, forward, right, up);
-// }
-
-// /* launches the ray, gets the color of every pixel and draws it */
-// void	launch_ray(t_rt *rt, t_v3d *forward, t_v3d *right, t_v3d *up)
-// {
-// 	int		x;
-// 	int		y;
-// 	t_v3d	ray_dir;
-// 	double	norm_x;
-// 	double	norm_y;
-
-// 	y = -1;
-// 	while (++y < WIN_H)
-// 	{
-// 		x = -1;
-// 		while (++x < WIN_W)
-// 		{
-// 			norm_x = (2.0 * (x + 0.5) / WIN_W - 1.0) * rt->win_w / 2.0;
-// 			norm_y = (1.0 - 2.0 * (y + 0.5) / WIN_H) * rt->win_h / 2.0;
-// 			ray_dir = normalize(forward + norm_x * right + norm_y * up);
-// 			/* now create a function like get_color to launch the ray and get the color of the pixel based on what it intercepts during its travel
-// 			then pixel_put with the correct color and that should be a good start */
-// 		}
-// 	}
-// }
-
 /* normalizes the given vector */
 t_v3d	normalize(t_v3d	a)
 {
@@ -75,7 +33,7 @@ void	launch_rays(t_rt *rt)
 		while (++y < WIN_H)
 		{
 			ray = make_ray(rt, make_v_dir(rt, x, y));
-			// intersection(rt, ray);
+			closest_inter(rt, &ray);
 			//get_color(rt, ray);		TODO
 		}
 		// my_mlx_pixel_put(rt->mlbx->img, x, y, ray->rgb);	//make a function to transfer from rgb to an int for the pixel put function
@@ -97,32 +55,15 @@ t_v3d	make_v_dir(t_rt *rt, double x, double y)
 {
 	t_v3d	v_dir;
 	t_v3d	screen_pos;
-	// double	a;
-	// double	b;
-	// double	c;
-	// int		max;
-
-	// v_dir = NULL;
-	// a = y + 0.5 - WIN_W * 0.5;
-	// b = x + 0.5 - WIN_H * 0.5;
-	// if (WIN_W > WIN_H)
-	// 	max = WIN_W;
-	// else
-	// 	max = WIN_H;
-	// c = max / (2 * tan((rt->sc->cam.fov * M_PI * 0.5) / 180.0));
-	// v_dir->x = 1 * a + 0 * b + 0 * c;
-	// v_dir->y = 0 * a + 1 * b + 0 * c;
-	// v_dir->z = 0 * a + 0 * b + 1 * c;
-
-	double	screen_x;
-	double	screen_y;
+	t_v3d	s_center;
+	// double	screen_x;
+	// double	screen_y;
 	double	v_fov;
 	double	h_fov;
 	double	screen_distance;
-	t_v3d	s_center;
 
-	screen_x = (x / (double)WIN_W) * 2 -1;
-	screen_y = (y / (double)WIN_H) * 2 -1;
+	// screen_x = (x / (double)WIN_W) * 2 -1;
+	// screen_y = (y / (double)WIN_H) * 2 -1;
 	v_fov = rt->sc->cam.fov * M_PI / 180.0;
 	h_fov = 2 * atan(tan(v_fov / 2) * (WIN_W / WIN_H));
 
