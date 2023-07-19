@@ -147,6 +147,14 @@ typedef struct s_inter
 	t_v3d	normal;
 } t_inter;
 
+/* testing somehting for mallocs */
+union			u_malloc
+{
+	t_sphere	sp;
+	t_plane		pl;
+	t_cylinder	cy;
+};
+
 /* --------------------------------------------------- */
 
 #endif

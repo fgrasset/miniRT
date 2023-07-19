@@ -28,12 +28,28 @@ t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
 	return (inter);
 }
 
-// t_inter	intersect_sphere()
+// t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere)
 // {
+// 	t_inter	*inter;
+// 	t_v3d	oc;
+// 	double	t;
+// 	double	a;
+// 	double	b;
+// 	double	c;
 
+// 	oc =sub(ray->coord, sphere->coord);
+// 	a = dot(ray->v_dir, ray->v_dir);
+// 	b = 2.0 * (ray->coord - sphere->coord)
+
+// 	inter = malloc(sizeof(t_inter));
+
+
+// 	inter->type = SPHERE;
 // }
 
-// t_inter	intersect_cylinder()
+// t_inter	intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 // {
+// 	t_inter	*inter;
 
+// 	inter = malloc(sizeof(t_inter));
 // }
