@@ -12,8 +12,10 @@ int	main(int argc, char **argv)
 	{
 		file_parsing(argv[1], rt);
 		print_objects(rt->sc->obj);
-		launch_rays(rt);
-		// make_window(rt);
+		make_window(rt);
+		// write(1, "test\n", 5);
+		// launch_rays(rt);
+		// write(1, "haha\n", 5);
 		free_structures(rt);
 	}
 	else

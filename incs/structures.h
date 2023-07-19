@@ -25,14 +25,6 @@ typedef struct s_v3d
 /* -------- STRUCTURES RELATED TO THE OBJECTS -------- */
 /* --------------------------------------------------- */
 
-typedef struct s_sphere
-{
-	char	*id;
-	t_v3d	coord;
-	double	d;
-	t_color	color;
-} t_sphere;
-
 typedef struct s_plane
 {
 	char	*id;
@@ -41,12 +33,20 @@ typedef struct s_plane
 	t_color	color;
 } t_plane;
 
+typedef struct s_sphere
+{
+	char	*id;
+	t_v3d	coord;
+	double	r;
+	t_color	color;
+} t_sphere;
+
 typedef struct s_cylinder
 {
 	char	*id;
 	t_v3d coord;
 	t_v3d norm_vec;
-	double	d;
+	double	r;
 	double	h;
 	t_color	color;
 
@@ -129,14 +129,6 @@ typedef struct s_mlbx
 	t_img	img;
 } t_mlbx;
 
-/* A single ray */
-typedef struct s_ray
-{
-	t_v3d	v_dir;
-	t_v3d	coord;
-	t_color	rgb;
-} t_ray;
-
 /* struct for intersections */
 typedef struct s_inter
 {
@@ -146,6 +138,15 @@ typedef struct s_inter
 	t_v3d	point;
 	t_v3d	normal;
 } t_inter;
+
+/* A single ray */
+typedef struct s_ray
+{
+	t_v3d	v_dir;
+	t_v3d	coord;
+	t_color	rgb;
+	t_inter	*inter;
+} t_ray;
 
 /* testing somehting for mallocs */
 union			u_malloc

@@ -1,3 +1,3 @@
 #include "../../incs/minirt.h"
 
-void	to_malloc()
+// void	to_malloc()

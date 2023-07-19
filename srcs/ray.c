@@ -1,7 +1,6 @@
 
 # include "../incs/minirt.h"
 
-t_v3d	normalize(t_v3d	a);
 t_v3d	make_v_dir(t_rt *rt, double i, double j);
 t_ray	make_ray(t_rt *rt, t_v3d v_dir);
 
@@ -33,10 +32,11 @@ void	launch_rays(t_rt *rt)
 		while (++y < WIN_H)
 		{
 			ray = make_ray(rt, make_v_dir(rt, x, y));
-			closest_inter(rt, &ray);
+			ray.inter = closest_inter(rt, &ray);
+			// print_inter(ray.inter);
 			//get_color(rt, ray);		TODO
+			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(ray.rgb));	//make a function to transfer from rgb to an int for the pixel put function
 		}
-		// my_mlx_pixel_put(rt->mlbx->img, x, y, ray->rgb);	//make a function to transfer from rgb to an int for the pixel put function
 	}
 }
 

@@ -34,6 +34,7 @@ int	destroy(t_rt *rt)
 int	display(t_rt *rt)
 {
 	background(rt);
+	launch_rays(rt);
 	mlx_put_image_to_window(rt->mlbx->mlx, rt->mlbx->mlx_win, rt->mlbx->img.img, 0, 0);
 	return (0);
 }

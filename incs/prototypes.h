@@ -38,11 +38,14 @@ float		parse_other(char *line, float element, int i);
 /* MAKE WINDOW */
 void		make_window(t_rt *rt);
 void		my_mlx_pixel_put(t_img img, int x, int y, int color);
+// void		limits(t_data *data, int i, int j);
 
 /* RAYS */
 void		launch_rays(t_rt *rt);
 t_inter		*closest_inter(t_rt *rt, t_ray *ray);
 t_inter		*intersect_plane(t_ray *ray, t_plane *plane);
+t_inter		*intersect_sphere(t_ray *ray, t_sphere *sphere);
+t_inter		*intersect_cylinder(t_ray *ray, t_cylinder *cylinder) ;
 
 
 /* v3d */
@@ -57,11 +60,13 @@ t_v3d		mult(t_v3d a, t_v3d b);
 /* MATH */
 double		quad(double a, double b, double c);
 double		dot_product(t_v3d a, t_v3d b);
+int			rgb_to_int(t_color rgb);
 
 
 /* UTILS 	*/
 int			cmp(const char *s1, const char *s2);
 void		print_v3d(t_v3d vect);
+void		print_inter(t_inter *inter);
 
 /* FREE */
 void		free_structures(t_rt *rt);

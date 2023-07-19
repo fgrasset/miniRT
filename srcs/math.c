@@ -15,7 +15,7 @@ double	quad(double a, double b, double c)
 		return (0);
 	add = (-b + sqrt(delta)) / (2 * a);
 	sub = (-b - sqrt(delta)) / (2 * a);
-	if (sub < add)
+	if (sub < add && sub > 0)
 		return (sub);
 	else
 		return (add);
@@ -26,4 +26,9 @@ double dot_product(t_v3d a, t_v3d b)
 {
 	return (a.x*b.x + a.y*b.y + a.z*b.z);
 }
+
+int rgb_to_int(t_color rgb) {
+    return ((rgb.r & 0xff) << 16) | ((rgb.g & 0xff) << 8) | (rgb.b & 0xff);
+}
+
 

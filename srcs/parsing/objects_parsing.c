@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:22 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/07/17 19:00:48 by fabien           ###   ########.fr       */
+/*   Updated: 2023/07/19 10:59:04 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_sphere	sphere_parsing(char *line)
 		if (i == 1)
 			sphere.coord = parse_coord(tab[i], sphere.coord);
 		else if (i == 2)
-			sphere.d = parse_other(tab[i], sphere.d, 2) / 2;
+			sphere.r = parse_other(tab[i], sphere.r, 2) / 2;
 		else if (i == 3)
 			sphere.color = parse_color(tab[i], sphere.color);
 	}
@@ -81,7 +81,7 @@ t_cylinder	cylinder_parsing(char *line)
 		else if (i == 2)
 			cylinder.norm_vec = parse_vector(tab[i], cylinder.norm_vec);
 		else if (i == 3)
-			cylinder.d = parse_other(tab[i], cylinder.d, 2) / 2;
+			cylinder.r = parse_other(tab[i], cylinder.r, 2) / 2;
 		else if (i == 4)
 			cylinder.h = parse_other(tab[i], cylinder.h, 2);
 		else if (i == 5)

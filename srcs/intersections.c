@@ -15,7 +15,6 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 	t_inter		*closest;
 	t_inter		*temp;
 	t_objects	*curr_fig;
-	(void) ray;
 
 	closest = malloc(sizeof(t_inter));
 	closest->dist = INFINITY;
@@ -24,13 +23,13 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 	{
 		if (curr_fig->type == PLANE)
 			temp = intersect_plane(ray, &curr_fig->fig.pl);
-		// else if (curr_fig->type == SPHERE)
-		// 	temp = intersect_sphere();
+		else if (curr_fig->type == SPHERE)
+			temp = intersect_sphere(ray, &curr_fig->fig.sp);
+		else if (curr_fig->type == CYLINDER)
+			temp = intersect_cylinder(ray, &curr_fig->fig.cy);
 
 		if (temp->dist > 0 && temp->dist < closest->dist)
 			closest = temp;
-		// else if (curr_fig->type == CYLINDER)
-		// 	intersect_cylinder();
 		// closest = curr_fig->fig.
 		// Idea is to use intersect function from each object and get the closer one to return it once we have checked every object
 		// printf("distance: %f\n", closest->dist);
@@ -40,5 +39,51 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 		// print_v3d(closest->normal);
 		curr_fig = curr_fig->next;
 	}
+	// if (closest->type == PLANE)
+	// {
+	// 	ray->rgb.r = 0;
+	// 	ray->rgb.g = 0;
+	// 	ray->rgb.b = 100;
+	// }
+	// if (closest->type == SPHERE)
+	// {
+	// 	ray->rgb.r = 100;
+	// 	ray->rgb.g = 0;
+	// 	ray->rgb.b = 0;
+	// }
+	// if (closest->type == CYLINDER)
+	// {
+	// 	ray->rgb.r = 0;
+	// 	ray->rgb.g = 100;
+	// 	ray->rgb.b = 0;
+	// }
 	return (closest);
 }
+
+// void	limits(t_rt *rt, int i, int j)
+// {
+// 	t_v3d	start;
+// 	t_v3d	end;
+
+// 	start.x = data->f_map[i][j].x;
+// 	start.y = data->f_map[i][j].y;
+// 	if (i < data->y_max - 1 && j < data->x_max - 1)
+// 	{
+// 		assign(data, &end, i, j + 1);
+// 		line(data, &start, &end);
+// 		assign (data, &end, i + 1, j);
+// 		line(data, &start, &end);
+// 	}
+// 	else if (i < data->y_max - 1 && j == data->x_max - 1)
+// 	{
+// 		assign (data, &end, i + 1, j);
+// 		line(data, &start, &end);
+// 	}
+// 	else if (i == data->y_max - 1 && j < data->x_max - 1)
+// 	{
+// 		assign (data, &end, i, j + 1);
+// 		line(data, &start, &end);
+// 	}
+// 	else
+// 		return ;
+// }
