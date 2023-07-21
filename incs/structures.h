@@ -157,6 +157,15 @@ union			u_malloc
 	t_cylinder	cy;
 };
 
+/*testing*/
+typedef struct {
+    double m[4][4];
+} mat4;
+
+typedef struct {
+    double x, y, z, w;
+} vec4;
+
 /* --------------------------------------------------- */
 
 #endif

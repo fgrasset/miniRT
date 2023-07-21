@@ -74,4 +74,13 @@ void		free_structures(t_rt *rt);
 void		free_tab(char **tab);
 void		free_objects(t_rt *rt);
 
+/* TESTING */
+vec4 vec4_new(double x, double y, double z, double w);
+vec4 vec4_from_v3d(t_v3d v, double w);
+t_v3d vec4_to_v3d(vec4 v);
+mat4 mat4_translation(t_v3d t);
+mat4 mat4_identity(void);
+vec4 mat4_mul_vec4(mat4 m, vec4 v);
+mat4 get_view_transform(t_camera cam);
+
 #endif
