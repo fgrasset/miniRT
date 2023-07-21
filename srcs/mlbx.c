@@ -4,6 +4,15 @@ int		destroy(t_rt *rt);
 int		display(t_rt *rt);
 void	background(t_rt	*rt);
 
+int	key_function(const int keycode, t_rt *rt)
+{
+	if (keycode == 53)
+	{
+		mlx_destroy_window(rt->mlbx->mlx, rt->mlbx->mlx_win);
+		exit(0);
+	}
+	return (0);
+}
 
 /* creates the graphical window */
 void	make_window(t_rt *rt)
@@ -16,8 +25,9 @@ void	make_window(t_rt *rt)
 	rt->mlbx->mlx_win = mlx_new_window(mlbx->mlx,WIN_W, WIN_H, "MiniRT");
 	rt->mlbx->img.img = mlx_new_image(mlbx->mlx, WIN_W, WIN_H);
 	rt->mlbx->img.addr = mlx_get_data_addr(mlbx->img.img, &mlbx->img.bits_per_pixel, &mlbx->img.line_length, &mlbx->img.endian);
-	mlx_hook(mlbx->mlx_win, 17, 0, destroy, rt);
-	mlx_loop_hook(mlbx->mlx, display, rt);
+	display(rt);
+	mlx_hook(mlbx->mlx_win, 17, 0, destroy, mlbx);
+	mlx_key_hook(mlbx->mlx_win, key_function, rt);
 	mlx_loop(mlbx->mlx);
 }
 
@@ -33,7 +43,7 @@ int	destroy(t_rt *rt)
 /* updates the displayed image */
 int	display(t_rt *rt)
 {
-	background(rt);
+	// background(rt);
 	launch_rays(rt);
 	mlx_put_image_to_window(rt->mlbx->mlx, rt->mlbx->mlx_win, rt->mlbx->img.img, 0, 0);
 	return (0);
