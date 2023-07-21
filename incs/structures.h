@@ -137,6 +137,7 @@ typedef struct s_inter
 	double	dist;
 	t_v3d	point;
 	t_v3d	normal;
+	t_color	c;
 } t_inter;
 
 /* A single ray */

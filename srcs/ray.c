@@ -35,7 +35,7 @@ void	launch_rays(t_rt *rt)
 			ray.inter = closest_inter(rt, &ray);
 			// print_inter(ray.inter);
 			//get_color(rt, ray);		TODO
-			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(ray.rgb));	//make a function to transfer from rgb to an int for the pixel put function
+			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(ray.inter->c));	//make a function to transfer from rgb to an int for the pixel put function
 		}
 	}
 }

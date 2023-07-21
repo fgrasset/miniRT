@@ -39,24 +39,13 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 		// print_v3d(closest->normal);
 		curr_fig = curr_fig->next;
 	}
-	// if (closest->type == PLANE)
-	// {
-	// 	ray->rgb.r = 0;
-	// 	ray->rgb.g = 0;
-	// 	ray->rgb.b = 100;
-	// }
-	// if (closest->type == SPHERE)
-	// {
-	// 	ray->rgb.r = 100;
-	// 	ray->rgb.g = 0;
-	// 	ray->rgb.b = 0;
-	// }
-	// if (closest->type == CYLINDER)
-	// {
-	// 	ray->rgb.r = 0;
-	// 	ray->rgb.g = 100;
-	// 	ray->rgb.b = 0;
-	// }
+	if (closest->type == PLANE)
+		closest->c = closest->obj.pl.color;
+	else if (closest->type == SPHERE)
+		closest->c = closest->obj.sp.color;
+	else if (closest->type == CYLINDER)
+		closest->c = closest->obj.cy.color;
+	return (closest);
 	return (closest);
 }
 
