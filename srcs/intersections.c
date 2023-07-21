@@ -28,7 +28,7 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 		else if (curr_fig->type == CYLINDER)
 			temp = intersect_cylinder(ray, &curr_fig->fig.cy);
 
-		if (temp->dist > 0 && temp->dist < closest->dist)
+		if (temp->dist > 0 && temp->dist < closest->dist && is_point_in_object(rt, &temp->point))
 			closest = temp;
 		// closest = curr_fig->fig.
 		// Idea is to use intersect function from each object and get the closer one to return it once we have checked every object

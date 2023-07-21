@@ -45,7 +45,8 @@ void		launch_rays(t_rt *rt);
 t_inter		*closest_inter(t_rt *rt, t_ray *ray);
 t_inter		*intersect_plane(t_ray *ray, t_plane *plane);
 t_inter		*intersect_sphere(t_ray *ray, t_sphere *sphere);
-t_inter		*intersect_cylinder(t_ray *ray, t_cylinder *cylinder) ;
+t_inter		*intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
+int			is_point_in_object(t_rt *rt, t_v3d *point);
 
 
 /* v3d */
