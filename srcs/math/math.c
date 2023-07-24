@@ -1,4 +1,4 @@
-#include "../incs/minirt.h"
+#include "../../incs/minirt.h"
 
 /* calculates a quadratic equation and returns the result with
 	the first intersection only in case of 2 intersections

@@ -38,7 +38,6 @@ float		parse_other(char *line, float element, int i);
 /* MAKE WINDOW */
 void		make_window(t_rt *rt);
 void		my_mlx_pixel_put(t_img img, int x, int y, int color);
-// void		limits(t_data *data, int i, int j);
 
 /* RAYS */
 void		launch_rays(t_rt *rt);
@@ -50,6 +49,7 @@ int			is_point_in_object(t_rt *rt, t_v3d *point);
 
 
 /* v3d */
+t_v3d		create_v3d(double x, double y, double z);
 t_v3d		add(t_v3d a, t_v3d b);
 t_v3d		sub(t_v3d a, t_v3d b);
 t_v3d		sc_mult(t_v3d a, double nb);
@@ -58,11 +58,20 @@ t_v3d		cross(t_v3d a, t_v3d b);
 t_v3d		normalize(t_v3d	a);
 t_v3d		mult(t_v3d a, t_v3d b);
 
+/* v4d */
+t_v4d		v4d_new(double x, double y, double z, double w);
+t_v4d		v4d_from_v3d(t_v3d v, double w);
+t_v3d		v4d_to_v3d(t_v4d v);
+t_v4d		mat4_mul_v4d(t_mat4 m, t_v4d v);
+
+
 /* MATH */
 double		quad(double a, double b, double c);
 double		dot_product(t_v3d a, t_v3d b);
 int			rgb_to_int(t_color rgb);
-
+t_mat4		mat4_translation(t_v3d t);
+t_mat4		mat4_identity(void);
+t_mat4		get_view_transform(t_camera cam);
 
 /* UTILS 	*/
 int			cmp(const char *s1, const char *s2);
@@ -73,14 +82,5 @@ void		print_inter(t_inter *inter);
 void		free_structures(t_rt *rt);
 void		free_tab(char **tab);
 void		free_objects(t_rt *rt);
-
-/* TESTING */
-vec4 vec4_new(double x, double y, double z, double w);
-vec4 vec4_from_v3d(t_v3d v, double w);
-t_v3d vec4_to_v3d(vec4 v);
-mat4 mat4_translation(t_v3d t);
-mat4 mat4_identity(void);
-vec4 mat4_mul_vec4(mat4 m, vec4 v);
-mat4 get_view_transform(t_camera cam);
 
 #endif

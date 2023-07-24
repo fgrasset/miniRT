@@ -117,19 +117,24 @@ t_ray	make_ray(t_rt *rt, t_v3d v_dir)
 
 t_v3d make_v_dir(t_rt *rt, double x, double y)
 {
-    // Screen space to world space conversion
-    t_v3d screen_pos;
-    screen_pos.x = (2.0 * x / WIN_W - 1.0) * tan(rt->sc->cam.fov / 2.0);
-    screen_pos.y = (1.0 - 2.0 * y / WIN_H) * tan(rt->sc->cam.fov / 2.0) / ((double)WIN_W / (double)WIN_H);
-    screen_pos.z = -1.0; // The screen is located at z=-1
+	// Screen space to world space conversion
+	t_v3d	screen_pos;
+	t_mat4	view_transform;
+	t_v4d	screen_pos_4d;
+	t_v4d	v_dir_4d;
+	t_v3d	v_dir;
 
-    // World space to camera space conversion
-    mat4 view_transform = get_view_transform(rt->sc->cam);
-    vec4 screen_pos_4d = vec4_from_v3d(screen_pos, 1);
-    vec4 v_dir_4d = mat4_mul_vec4(view_transform, screen_pos_4d);
-    t_v3d v_dir = vec4_to_v3d(v_dir_4d);
+	screen_pos.x = (2.0 * x / WIN_W - 1.0) * tan(rt->sc->cam.fov / 2.0);
+	screen_pos.y = (1.0 - 2.0 * y / WIN_H) * tan(rt->sc->cam.fov / 2.0) / ((double)WIN_W / (double)WIN_H);
+	screen_pos.z = -1.0; // The screen is located at z=-1
 
-    return normalize(v_dir);
+	// World space to camera space conversion
+	view_transform = get_view_transform(rt->sc->cam);
+	screen_pos_4d = v4d_from_v3d(screen_pos, 1);
+	v_dir_4d = mat4_mul_v4d(view_transform, screen_pos_4d);
+	v_dir = v4d_to_v3d(v_dir_4d);
+
+	return (normalize(v_dir));
 }
 
 
