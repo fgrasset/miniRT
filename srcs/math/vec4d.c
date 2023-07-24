@@ -1,6 +1,6 @@
 #include "../../incs/minirt.h"
 
-t_v4d	v4d_new(double x, double y, double z, double w) {
+t_v4d	new_v4d(double x, double y, double z, double w) {
 	t_v4d v;
 
 	v.x = x;
@@ -11,7 +11,7 @@ t_v4d	v4d_new(double x, double y, double z, double w) {
 }
 
 t_v4d	v4d_from_v3d(t_v3d v, double w) {
-	return (v4d_new(v.x, v.y, v.z, w));
+	return (new_v4d(v.x, v.y, v.z, w));
 }
 
 t_v3d	v4d_to_v3d(t_v4d v)

@@ -1,5 +1,7 @@
 #include "../incs/minirt.h"
 
+int	is_closest(t_inter *closest, t_inter *temp);
+
 /*
 calculate the intersection
 maybe create a struct intersection that the distance to the ray's origin
@@ -16,7 +18,7 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 	t_inter		*temp;
 	t_objects	*curr_fig;
 
-	closest = malloc(sizeof(t_inter));
+	closest = ft_calloc(sizeof(t_inter), 1);
 	closest->dist = INFINITY;
 	curr_fig = rt->sc->obj;
 	while (curr_fig->next)
@@ -28,15 +30,8 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 		else if (curr_fig->type == CYLINDER)
 			temp = intersect_cylinder(ray, &curr_fig->fig.cy);
 
-		if (temp->dist > 0 && temp->dist < closest->dist && is_point_in_object(rt, &temp->point))
+		if (temp->dist > 0 && is_closest(closest, temp) && is_point_in_object(rt, &temp->point))
 			closest = temp;
-		// closest = curr_fig->fig.
-		// Idea is to use intersect function from each object and get the closer one to return it once we have checked every object
-		// printf("distance: %f\n", closest->dist);
-		// printf("point : \n");
-		// print_v3d(closest->point);
-		// printf("normal : \n");
-		// print_v3d(closest->normal);
 		curr_fig = curr_fig->next;
 	}
 	if (closest->type == PLANE)
@@ -46,7 +41,15 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 	else if (closest->type == CYLINDER)
 		closest->c = closest->obj.cy.color;
 	return (closest);
-	return (closest);
+}
+
+int	is_closest(t_inter *closest, t_inter *temp)
+{
+	if (temp->dist == INFINITY && closest->dist)
+		return (0);
+	if (temp->dist < closest->dist)
+		return (1);
+	return (0);
 }
 
 // void	limits(t_rt *rt, int i, int j)

@@ -22,7 +22,7 @@ t_v3d	sub(t_v3d a, t_v3d b)
 	return (res);
 }
 
-t_v3d	create_v3d(double x, double y, double z)
+t_v3d	new_v3d(double x, double y, double z)
 {
 	t_v3d	new;
 

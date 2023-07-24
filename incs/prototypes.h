@@ -49,7 +49,7 @@ int			is_point_in_object(t_rt *rt, t_v3d *point);
 
 
 /* v3d */
-t_v3d		create_v3d(double x, double y, double z);
+t_v3d		new_v3d(double x, double y, double z);
 t_v3d		add(t_v3d a, t_v3d b);
 t_v3d		sub(t_v3d a, t_v3d b);
 t_v3d		sc_mult(t_v3d a, double nb);
@@ -59,7 +59,7 @@ t_v3d		normalize(t_v3d	a);
 t_v3d		mult(t_v3d a, t_v3d b);
 
 /* v4d */
-t_v4d		v4d_new(double x, double y, double z, double w);
+t_v4d		new_v4d(double x, double y, double z, double w);
 t_v4d		v4d_from_v3d(t_v3d v, double w);
 t_v3d		v4d_to_v3d(t_v4d v);
 t_v4d		mat4_mul_v4d(t_mat4 m, t_v4d v);
@@ -72,6 +72,8 @@ int			rgb_to_int(t_color rgb);
 t_mat4		mat4_translation(t_v3d t);
 t_mat4		mat4_identity(void);
 t_mat4		get_view_transform(t_camera cam);
+t_v3d		mat4_mul_v3d(t_mat4 m, t_v3d v);
+
 
 /* UTILS 	*/
 int			cmp(const char *s1, const char *s2);

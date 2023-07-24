@@ -33,7 +33,7 @@ t_mat4	get_view_transform(t_camera cam)
 	t_v3d	constant;
 	t_mat4	view;
 
-	constant = create_v3d(0, 1, 0);
+	constant = new_v3d(0, 1, 0);
 	forward = normalize(cam.ori);  // Assuming the orientation is where camera is looking at
 	right = normalize(cross(forward, constant));
 	up = cross(right, forward);
@@ -57,3 +57,23 @@ t_mat4	get_view_transform(t_camera cam)
 
 	return (view);
 }
+
+t_v3d	mat4_mul_v3d(t_mat4 m, t_v3d v)
+{
+	t_v3d	result;
+	double	w;
+
+	result.x = m.m[0][0] * v.x + m.m[0][1] * v.y + m.m[0][2] * v.z + m.m[0][3];
+	result.y = m.m[1][0] * v.x + m.m[1][1] * v.y + m.m[1][2] * v.z + m.m[1][3];
+	result.z = m.m[2][0] * v.x + m.m[2][1] * v.y + m.m[2][2] * v.z + m.m[2][3];
+	w = m.m[3][0] * v.x + m.m[3][1] * v.y + m.m[3][2] * v.z + m.m[3][3];
+
+	if (w != 1.0 && w != 0.0){
+		result.x /= w;
+		result.y /= w;
+		result.z /= w;
+	}
+
+	return (result);
+}
+
