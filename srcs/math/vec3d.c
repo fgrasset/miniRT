@@ -1,5 +1,4 @@
-
-# include "../../incs/minirt.h"
+#include "../../incs/minirt.h"
 
 /* returns a+b */
 t_v3d	add(t_v3d a, t_v3d b)
@@ -21,6 +20,16 @@ t_v3d	sub(t_v3d a, t_v3d b)
 	res.y = a.y - b.y;
 	res.z = a.z - b.z;
 	return (res);
+}
+
+t_v3d	new_v3d(double x, double y, double z)
+{
+	t_v3d	new;
+
+	new.x = x;
+	new.y = y;
+	new.z = z;
+	return (new);
 }
 
 /* multiplication by a scalar */

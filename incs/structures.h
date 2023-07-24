@@ -158,13 +158,15 @@ union			u_malloc
 };
 
 /*testing*/
-typedef struct {
-    double m[4][4];
-} mat4;
+typedef struct s_mat4
+{
+	double m[4][4];
+} t_mat4;
 
-typedef struct {
-    double x, y, z, w;
-} vec4;
+typedef struct s_v4d
+{
+	double x, y, z, w;
+} t_v4d;
 
 /* --------------------------------------------------- */
 
