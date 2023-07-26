@@ -25,12 +25,6 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 			closest = temp;
 		curr_fig = curr_fig->next;
 	}
-	if (closest->type == PLANE)
-		closest->c = closest->obj.pl.color;
-	else if (closest->type == SPHERE)
-		closest->c = closest->obj.sp.color;
-	else if (closest->type == CYLINDER)
-		closest->c = closest->obj.cy.color;
 	return (closest);
 }
 

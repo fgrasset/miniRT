@@ -24,6 +24,7 @@ void	launch_rays(t_rt *rt)
 	double	x;
 	double	y;
 	t_ray	ray;
+	t_color	final_color;
 
 	y = 0;
 	while (y++ < WIN_H)
@@ -34,9 +35,15 @@ void	launch_rays(t_rt *rt)
 			ray = make_ray(rt, make_v_dir(rt, x, y));
 			ray.inter = closest_inter(rt, &ray);
 			// print_inter(ray.inter);
+<<<<<<< HEAD
 			// print_inter(ray.inter);
 			//get_color(rt, ray);		TODO
 			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(ray.inter->c));	//make a function to transfer from rgb to an int for the pixel put function
+=======
+			final_color = get_color(ray.inter);
+			final_color = lights_shadows(rt, rt->sc, ray.inter, final_color);
+			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(final_color));	//make a function to transfer from rgb to an int for the pixel put function
+>>>>>>> laura
 		}
 	}
 }
