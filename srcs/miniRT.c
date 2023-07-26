@@ -11,7 +11,7 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		file_parsing(argv[1], rt);
-		print_objects(rt->sc->obj);
+		// print_objects(rt->sc->obj);
 		make_window(rt);
 		// launch_rays(rt);
 		free_structures(rt);

@@ -74,6 +74,10 @@ t_mat4		mat4_identity(void);
 t_mat4		get_view_transform(t_camera cam);
 t_v3d		mat4_mul_v3d(t_mat4 m, t_v3d v);
 
+/* LIGHTRAY */
+t_color int_to_rgb(const int r, const int g, const int b);
+t_color get_color(t_inter *inter);
+t_color lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color);
 
 /* UTILS 	*/
 int			cmp(const char *s1, const char *s2);

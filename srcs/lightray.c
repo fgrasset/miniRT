@@ -3,74 +3,128 @@
 /*                                                        :::      ::::::::   */
 /*   lightray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 14:19:12 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/07/24 14:25:54 by fgrasset         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:16:03 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minirt.h"
 
-// // Fonction pour calculer l'éclairage selon le modèle de réflexion de Phong
-// t_color phong_lighting(t_inter intersection, t_v3d viewer_position, t_light light, double ambient_intensity, double diffuse_intensity, double specular_intensity, double shininess) {
-//     // Direction du rayon vers la source lumineuse
-//     t_v3d light_direction;
-//     light_direction.x = light.position.x - intersection.point.x;
-//     light_direction.y = light.position.y - intersection.point.y;
-//     light_direction.z = light.position.z - intersection.point.z;
-//     double light_distance = sqrt(light_direction.x * light_direction.x + light_direction.y * light_direction.y + light_direction.z * light_direction.z);
-//     light_direction.x /= light_distance;
-//     light_direction.y /= light_distance;
-//     light_direction.z /= light_distance;
+double distance(t_v3d *p1, t_v3d *p2) {
+    double dx = p2->x - p1->x;
+    double dy = p2->y - p1->y;
+    double dz = p2->z - p1->z;
 
-//     // Calcul de l'angle d'incidence entre la normale de surface et la direction de la lumière
-//     double cos_theta = light_direction.x * intersection.normal.x + light_direction.y * intersection.normal.y + light_direction.z * intersection.normal.z;
-//     if (cos_theta < 0.0) {
-//         // Le point est dans l'ombre, retourner la couleur ambiante uniquement
-//         return intersection.c;
-//     }
+    return sqrt(dx * dx + dy * dy + dz * dz);
+}
 
-//     // Calcul de la direction du rayon réfléchi (pour la composante spéculaire)
-//     t_v3d reflection_direction;
-//     reflection_direction.x = 2.0 * cos_theta * intersection.normal.x - light_direction.x;
-//     reflection_direction.y = 2.0 * cos_theta * intersection.normal.y - light_direction.y;
-//     reflection_direction.z = 2.0 * cos_theta * intersection.normal.z - light_direction.z;
+t_v3d subtract_vectors(t_v3d v1, t_v3d v2)
+{
+    t_v3d result;
+    result.x = v1.x - v2.x;
+    result.y = v1.y - v2.y;
+    result.z = v1.z - v2.z;
+    return result;
+}
 
-//     // Direction du rayon du spectateur (vers la caméra)
-//     t_v3d viewer_direction;
-//     viewer_direction.x = viewer_position.x - intersection.point.x;
-//     viewer_direction.y = viewer_position.y - intersection.point.y;
-//     viewer_direction.z = viewer_position.z - intersection.point.z;
-//     double viewer_distance = sqrt(viewer_direction.x * viewer_direction.x + viewer_direction.y * viewer_direction.y + viewer_direction.z * viewer_direction.z);
-//     viewer_direction.x /= viewer_distance;
-//     viewer_direction.y /= viewer_distance;
-//     viewer_direction.z /= viewer_distance;
+t_color int_to_rgb(const int r, const int g, const int b)
+{
+	t_color	rgb;
 
-//     // Calcul de l'angle entre le rayon réfléchi et le rayon du spectateur (pour la composante spéculaire)
-//     double cos_alpha = reflection_direction.x * viewer_direction.x + reflection_direction.y * viewer_direction.y + reflection_direction.z * viewer_direction.z;
+	rgb.r = r;
+	rgb.g = g;
+	rgb.b = b;
+	return (rgb);
+}
 
-//     // Calcul des composantes diffuse et spéculaire de l'éclairage
-//     t_color diffuse_color, specular_color;
-//     diffuse_color.r = intersection.c.r * light.color.r * diffuse_intensity * cos_theta;
-//     diffuse_color.g = intersection.c.g * light.color.g * diffuse_intensity * cos_theta;
-//     diffuse_color.b = intersection.c.b * light.color.b * diffuse_intensity * cos_theta;
+t_color get_color(t_inter *inter)
+{
+    if (inter->type == PLANE)
+		inter->c = inter->obj.pl.color;
+	else if (inter->type == SPHERE)
+		inter->c = inter->obj.sp.color;
+	else if (inter->type == CYLINDER)
+		inter->c = inter->obj.cy.color;
+	return (inter->c);
+}
 
-//     double specular_factor = pow(cos_alpha, shininess);
-//     specular_color.r = light.color.r * specular_intensity * specular_factor;
-//     specular_color.g = light.color.g * specular_intensity * specular_factor;
-//     specular_color.b = light.color.b * specular_intensity * specular_factor;
+t_color ambiance_color(t_color color, t_ambiant amb)
+{
+    t_color ambient_color;
 
-//     // Calcul de la couleur d'éclairage finale (somme de l'éclairage ambiant, diffus et spéculaire)
-//     t_color result;
-//     result.r = intersection.c.r * ambient_intensity + diffuse_color.r + specular_color.r;
-//     result.g = intersection.c.g * ambient_intensity + diffuse_color.g + specular_color.g;
-//     result.b = intersection.c.b * ambient_intensity + diffuse_color.b + specular_color.b;
+    ambient_color.r = color.r * amb.color.r * amb.ratio;
+    ambient_color.g = color.g * amb.color.g * amb.ratio;
+    ambient_color.b = color.b * amb.color.b * amb.ratio;
+    return (ambient_color);
+}
 
-//     // Assurer que les valeurs de couleur restent dans la plage [0, 1]
-//     result.r = fmax(0.0, fmin(1.0, result.r));
-//     result.g = fmax(0.0, fmin(1.0, result.g));
-//     result.b = fmax(0.0, fmin(1.0, result.b));
+double dot_product_v3d(t_v3d v1, t_v3d v2)
+{
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
 
-//     return result;
-// }
+t_color diffuse_color(t_inter *inter, t_light *light, t_color color)
+{
+    // t_v3d normal = inter->normal;
+    t_v3d light_dir = normalize(subtract_vectors(light->coord, inter->point));
+    double dot_product = dot_product_v3d(inter->normal, light_dir);
+    double diffuse_factor = fmax(0.0, dot_product) * light->ratio;
+
+    t_color diffuse_color;
+    diffuse_color.r = inter->c.r * diffuse_factor;
+    diffuse_color.g = inter->c.g * diffuse_factor;
+    diffuse_color.b = inter->c.b * diffuse_factor;
+    color.r += diffuse_color.r;
+    color.g += diffuse_color.g;
+    color.b += diffuse_color.b;
+    return (color);
+}
+
+bool intersect_obj(t_rt *rt, t_ray *ray, double max_distance)
+{
+    t_objects *objects = rt->sc->obj;
+    t_inter *impact_obstacle;
+
+    impact_obstacle = malloc(sizeof(t_inter));
+    while (objects)
+    {
+        impact_obstacle = closest_inter(rt, ray);
+        if (impact_obstacle && impact_obstacle->dist < max_distance)
+        {
+            free (impact_obstacle);
+            return (true);
+        }
+        objects = objects->next;
+    }
+    free (impact_obstacle);
+    return (false);
+}
+
+t_color shadow_color(t_color color, double shadow_intensity)
+{
+    t_color shadow_color;
+    shadow_color.r = color.r * shadow_intensity;
+    shadow_color.g = color.g * shadow_intensity;
+    shadow_color.b = color.b * shadow_intensity;
+    return shadow_color;
+}
+
+
+t_color lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color)
+{
+    t_ray   to_light;
+    t_color final_color;
+    bool    is_in_shadow;
+
+    final_color = ambiance_color(color, sc->amb);
+    to_light.coord = inter->point;
+    to_light.v_dir = normalize(subtract_vectors(sc->light.coord, inter->point));
+    is_in_shadow = intersect_obj(rt, &to_light, distance(&to_light.coord, &sc->light.coord));
+    if (!is_in_shadow) //donc si va direct dans la lumiere
+        final_color = diffuse_color(inter, &sc->light, final_color);
+    else //donc s'il intercepte un objet
+        final_color = shadow_color(final_color, 0.5);
+    return (final_color);
+}

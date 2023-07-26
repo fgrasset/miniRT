@@ -145,7 +145,6 @@ typedef struct s_ray
 {
 	t_v3d	v_dir;
 	t_v3d	coord;
-	t_color	rgb;
 	t_inter	*inter;
 } t_ray;
 
