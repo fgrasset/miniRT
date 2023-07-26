@@ -15,7 +15,6 @@ t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
 		return (inter);
 	}
 	t = dot_product(sub(plane->coord, ray->coord), plane->ori) / denom;
-	// if t is negative, then the plane is behind the ray origin
 	if (t < 0)
 	{
 		inter->dist = INFINITY;
@@ -55,21 +54,16 @@ t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere)
 t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
 	t_inter	*inter;
-	double	t;
 	t_v3d	d;
 	t_v3d	e;
 	t_v3d	m;
-	// t_v3d	dp;
+	double	t;
 
 	inter = malloc(sizeof(t_inter));
-	// dp = sub(ray.origin, cylinder->coord);
 	d = sub(ray->v_dir, sc_mult(cylinder->norm_vec, \
 	dot_product(ray->v_dir, cylinder->norm_vec)));
 	e = sub(sub(ray->coord, cylinder->coord), sc_mult(cylinder->norm_vec, \
 	dot_product(sub(ray->coord, cylinder->coord), cylinder->norm_vec)));
-	// a = dot_product(d, d);
-	// b = 2.0 * dot_product(d, e);
-	// c = dot_product(e, e) - pow(cylinder->radius, 2);
 	t = quad(dot_product(d, d), 2.0 * dot_product(d, e), \
 	dot_product(e, e) - pow(cylinder->r, 2));
 	if (t < 0)

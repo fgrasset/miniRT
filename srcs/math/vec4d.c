@@ -32,5 +32,3 @@ t_v4d	mat4_mul_v4d(t_mat4 m, t_v4d v)
 
 	return (result);
 }
-
-

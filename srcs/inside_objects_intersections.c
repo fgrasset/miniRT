@@ -72,4 +72,3 @@ float	v3d_len(t_v3d v)
 	len = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	return (len);
 }
-

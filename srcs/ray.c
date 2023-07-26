@@ -3,7 +3,6 @@
 
 t_v3d	make_v_dir(t_rt *rt, double i, double j);
 t_ray	make_ray(t_rt *rt, t_v3d v_dir);
-t_v3d	cam2world(t_mat4 m, t_v3d *v);
 
 /* normalizes the given vector */
 t_v3d	normalize(t_v3d	a)
@@ -26,14 +25,15 @@ void	launch_rays(t_rt *rt)
 	double	y;
 	t_ray	ray;
 
-	y = -1;
-	while (++y < WIN_H)
+	y = 0;
+	while (y++ < WIN_H)
 	{
-		x = -1;
-		while (++x < WIN_W)
+		x = 0;
+		while (x++ < WIN_W)
 		{
 			ray = make_ray(rt, make_v_dir(rt, x, y));
 			ray.inter = closest_inter(rt, &ray);
+			// print_inter(ray.inter);
 			// print_inter(ray.inter);
 			//get_color(rt, ray);		TODO
 			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(ray.inter->c));	//make a function to transfer from rgb to an int for the pixel put function
@@ -54,20 +54,42 @@ t_ray	make_ray(t_rt *rt, t_v3d v_dir)
 t_v3d make_v_dir(t_rt *rt, double x, double y)
 {
 	t_v3d	v_dir;
-	t_v3d	ray_Origin_World;
-	t_v3d	ray_P_World;
 	double	scale;
 	double	ratio;
 
-	ratio = WIN_W / WIN_H;
+	ratio = WIN_W / (double)WIN_H;
 	scale = tan((rt->sc->cam.fov * 0.5) * M_PI / 180.0);
-	x = (2 * (x + 0.5) / WIN_W - 1) * ratio * scale;
-	y = (1 - 2 * (y + 0.5) / WIN_H) * scale;
-	ray_Origin_World = mat4_mul_v3d(get_view_transform(rt->sc->cam), rt->sc->cam.coord);
-	ray_P_World = mat4_mul_v3d(get_view_transform(rt->sc->cam), new_v3d(x, y, -1));
-	v_dir = sub(ray_P_World, ray_Origin_World);
+	x = -(2 * (x + 0.5) / WIN_W - 1) * scale;
+	y = -(1 - 2 * (y + 0.5) / WIN_H) / ratio * scale;
+
+	// Construct the ray direction in camera space
+	v_dir = new_v3d(x, y, -1);
+
+	// Transform the ray direction to world space
+	v_dir = mat4_mul_v3d(get_inverse_view_transform(rt->sc->cam), v_dir);
+
+	// Normalize the ray direction
 	return (normalize(v_dir));
 }
+
+
+// t_v3d make_v_dir(t_rt *rt, double x, double y)
+// {
+// 	t_v3d	v_dir;
+// 	t_v3d	ray_Origin_World;
+// 	t_v3d	ray_P_World;
+// 	double	scale;
+// 	double	ratio;
+
+// 	ratio = WIN_W / WIN_H;
+// 	scale = tan((rt->sc->cam.fov * 0.5) * M_PI / 180.0);
+// 	x = -(2 * (x + 0.5) / WIN_W - 1) * ratio * scale;
+// 	y = -(1 - 2 * (y + 0.5) / WIN_H) * scale;
+// 	ray_Origin_World = mat4_mul_v3d(get_view_transform(rt->sc->cam), rt->sc->cam.coord);
+// 	ray_P_World = mat4_mul_v3d(get_view_transform(rt->sc->cam), new_v3d(x, y, -1));
+// 	v_dir = sub(ray_P_World, ray_Origin_World);
+// 	return (normalize(v_dir));
+// }
 
 // t_color calculate_color(t_ray ray, t_intersection intersection) {
 //     t_color color = {0, 0, 0};

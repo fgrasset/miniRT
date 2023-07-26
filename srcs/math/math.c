@@ -7,18 +7,22 @@
 double	quad(double a, double b, double c)
 {
 	double	delta;
-	double	sub;
-	double	add;
+	double	t0;
+	double	t1;
 
 	delta = b * b - 4 * a * c;
 	if (delta < 0)
-		return (0);
-	add = (-b + sqrt(delta)) / (2 * a);
-	sub = (-b - sqrt(delta)) / (2 * a);
-	if (sub < add && sub > 0)
-		return (sub);
+		return -1;
+	t0 = (-b - sqrt(delta)) / (2 * a);
+	t1 = (-b + sqrt(delta)) / (2 * a);
+	if (t0 < 0)
+		t0 = t1;
+	if (t0 < 0)
+		return -1;
+	else if (t1 >= 0 && t1 < t0)
+		return t1;
 	else
-		return (add);
+		return t0;
 }
 
 /* returns the dot product of 2 vectors */
@@ -28,7 +32,5 @@ double dot_product(t_v3d a, t_v3d b)
 }
 
 int rgb_to_int(t_color rgb) {
-    return ((rgb.r & 0xff) << 16) | ((rgb.g & 0xff) << 8) | (rgb.b & 0xff);
+	return ((rgb.r & 0xff) << 16) | ((rgb.g & 0xff) << 8) | (rgb.b & 0xff);
 }
-
-

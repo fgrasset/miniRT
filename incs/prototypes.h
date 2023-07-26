@@ -72,6 +72,7 @@ int			rgb_to_int(t_color rgb);
 t_mat4		mat4_translation(t_v3d t);
 t_mat4		mat4_identity(void);
 t_mat4		get_view_transform(t_camera cam);
+t_mat4		get_inverse_view_transform(t_camera cam);
 t_v3d		mat4_mul_v3d(t_mat4 m, t_v3d v);
 
 

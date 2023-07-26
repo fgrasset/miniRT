@@ -34,7 +34,7 @@ t_mat4	get_view_transform(t_camera cam)
 	t_mat4	view;
 
 	constant = new_v3d(0, 1, 0);
-	forward = normalize(cam.ori);  // Assuming the orientation is where camera is looking at
+	forward = normalize(sub(cam.ori, cam.coord));  // Assuming the orientation is where camera is looking at
 	right = normalize(cross(forward, constant));
 	up = cross(right, forward);
 	// Create the view transformation matrix
@@ -58,6 +58,42 @@ t_mat4	get_view_transform(t_camera cam)
 	return (view);
 }
 
+t_mat4	get_inverse_view_transform(t_camera cam)
+{
+	// Create the basis vectors of the camera
+	t_v3d	forward;
+	t_v3d	right;
+	t_v3d	up;
+	t_v3d	constant;
+	t_mat4	inv_view;
+
+	constant = new_v3d(0, 1, 0);
+	forward = normalize(sub(cam.ori, cam.coord));
+	right = normalize(cross(forward, constant));
+	up = cross(right, forward);
+
+	// Create the inverse view transformation matrix
+	inv_view.m[0][0] = right.x;
+	inv_view.m[1][0] = right.y;
+	inv_view.m[2][0] = right.z;
+	inv_view.m[0][1] = up.x;
+	inv_view.m[1][1] = up.y;
+	inv_view.m[2][1] = up.z;
+	inv_view.m[0][2] = -forward.x;
+	inv_view.m[1][2] = -forward.y;
+	inv_view.m[2][2] = -forward.z;
+	inv_view.m[0][3] = dot_product(right, cam.coord);
+	inv_view.m[1][3] = dot_product(up, cam.coord);
+	inv_view.m[2][3] = -dot_product(forward, cam.coord);
+	inv_view.m[3][0] = 0;
+	inv_view.m[3][1] = 0;
+	inv_view.m[3][2] = 0;
+	inv_view.m[3][3] = 1;
+
+	return (inv_view);
+}
+
+
 t_v3d	mat4_mul_v3d(t_mat4 m, t_v3d v)
 {
 	t_v3d	result;
@@ -76,4 +112,3 @@ t_v3d	mat4_mul_v3d(t_mat4 m, t_v3d v)
 
 	return (result);
 }
-
