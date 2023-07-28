@@ -29,6 +29,39 @@ t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
 	return (inter);
 }
 
+// t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
+// {
+// 	t_inter	*inter;
+// 	double	denom;
+// 	double	t;
+
+// 	inter = ft_calloc(sizeof(t_inter), 1);
+// 	denom = dot_product(plane->ori, ray->v_dir);
+// 	if (fabs(denom) > 0)
+// 	{
+// 		t = dot_product(sub(plane->coord, ray->coord), plane->ori) / denom;
+// 		if (t > EPSILON)
+// 		{
+// 			inter->dist = t;
+// 			inter->normal = normalize(plane->ori);
+// 			inter->point = add(ray->coord, sc_mult(ray->v_dir, t));
+// 			inter->point = add(inter->point, sc_mult(inter->normal, EPSILON));
+// 		}
+// 		else
+// 		{
+// 			inter->dist = INFINITY;
+// 			return (inter);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		inter->dist = INFINITY;
+// 		return (inter);
+// 	}
+// 	return (inter);
+// }
+
+
 t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
 	t_inter	*inter;
@@ -50,6 +83,24 @@ t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere)
 	inter->point = add(ray->coord, sc_mult(ray->v_dir, t));
 	inter->normal = normalize(sub(inter->point, sphere->coord));
 	return (inter);
+}
+
+t_v3d	convert_cylinder_space(t_v3d *point, t_cylinder *cylinder)
+{
+	t_v3d	cylinder_space;
+	t_v3d	aligned_point;
+	double	dot_product;
+
+	cylinder_space.x = point->x - cylinder->coord.x;
+	cylinder_space.y = point->y - cylinder->coord.y;
+	cylinder_space.z = point->z - cylinder->coord.z;
+	dot_product	= cylinder_space.x * cylinder->norm_vec.x + \
+		cylinder_space.y * cylinder->norm_vec.y + \
+		cylinder_space.z * cylinder->norm_vec.z;
+	aligned_point.x = cylinder_space.x - dot_product * cylinder->norm_vec.x;
+	aligned_point.y = cylinder_space.y - dot_product * cylinder->norm_vec.y;
+	aligned_point.z = cylinder_space.z - dot_product * cylinder->norm_vec.z;
+	return (aligned_point);
 }
 
 t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)

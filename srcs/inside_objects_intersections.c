@@ -10,7 +10,7 @@ int	is_point_in_object(t_rt *rt, t_v3d *point)
 	t_objects	*curr_fig;
 
 	curr_fig = rt->sc->obj;
-	while (curr_fig->next)
+	while (curr_fig)
 	{
 		if (curr_fig->type == PLANE)
 		{

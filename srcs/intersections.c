@@ -21,7 +21,7 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 		else if (curr_fig->type == CYLINDER)
 			temp = intersect_cylinder(ray, &curr_fig->fig.cy);
 
-		if (temp->dist > 0 && is_closest(closest, temp) && is_point_in_object(rt, &temp->point))
+		if (temp->dist > 0 && is_closest(closest, temp))
 			closest = temp;
 		curr_fig = curr_fig->next;
 	}

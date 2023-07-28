@@ -36,7 +36,7 @@ void	launch_rays(t_rt *rt)
 			ray.inter = closest_inter(rt, &ray);
 			// print_inter(ray.inter);
 			final_color = get_color(ray.inter);
-			final_color = lights_shadows(rt, rt->sc, ray.inter, final_color);
+			// final_color = lights_shadows(rt, rt->sc, ray.inter, final_color);
 			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(final_color));	//make a function to transfer from rgb to an int for the pixel put function
 		}
 	}
@@ -60,8 +60,8 @@ t_v3d make_v_dir(t_rt *rt, double x, double y)
 
 	ratio = WIN_W / (double)WIN_H;
 	scale = tan((rt->sc->cam.fov * 0.5) * M_PI / 180.0);
-	x = -(2 * (x + 0.5) / WIN_W - 1) * scale;
-	y = -(1 - 2 * (y + 0.5) / WIN_H) / ratio * scale;
+	x = -(2 * (x + 0.5) / WIN_W - 1) * scale * ratio;
+	y = -(1 - 2 * (y + 0.5) / WIN_H) * scale;
 
 	// Construct the ray direction in camera space
 	v_dir = new_v3d(x, y, -1);
