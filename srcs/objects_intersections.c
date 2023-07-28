@@ -6,11 +6,12 @@ t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
 	double	t;
 	double	denom;
 
-	inter = malloc(sizeof(t_inter));
+	inter = calloc(sizeof(t_inter));
 	plane->ori = normalize(plane->ori);
 	denom = dot_product(ray->v_dir, plane->ori);
 	if (fabs(denom) < 1e-6)
 	{
+		printf("the ray is either similar to the plane");
 		inter->dist = INFINITY;
 		return (inter);
 	}
@@ -34,7 +35,7 @@ t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere)
 	t_v3d	oc;
 	double	t;
 
-	inter = malloc(sizeof(t_inter));
+	inter = calloc(sizeof(t_inter));
 	oc = sub(ray->coord, sphere->coord);
 	t = quad(dot_product(ray->v_dir, ray->v_dir), 2.0 * \
 	dot_product(oc, ray->v_dir), dot_product(oc, oc) - sphere->r * sphere->r);
@@ -59,7 +60,7 @@ t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 	t_v3d	m;
 	double	t;
 
-	inter = malloc(sizeof(t_inter));
+	inter = calloc(sizeof(t_inter));
 	d = sub(ray->v_dir, sc_mult(cylinder->norm_vec, \
 	dot_product(ray->v_dir, cylinder->norm_vec)));
 	e = sub(sub(ray->coord, cylinder->coord), sc_mult(cylinder->norm_vec, \
