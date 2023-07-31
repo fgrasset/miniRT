@@ -36,59 +36,68 @@ void	launch_rays(t_rt *rt)
 			ray.inter = closest_inter(rt, &ray);
 			// print_inter(ray.inter);
 			final_color = get_color(ray.inter);
-			// final_color = lights_shadows(rt, rt->sc, ray.inter, final_color);
+			final_color = lights_shadows(rt, rt->sc, ray.inter, final_color);
 			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(final_color));	//make a function to transfer from rgb to an int for the pixel put function
 		}
 	}
 }
 
-/* creates a ray */
-t_ray	make_ray(t_rt *rt, t_v3d v_dir)
+t_ray	make_ray(t_rt *rt, t_v3d dir)
 {
 	t_ray	ray;
 
 	ray.coord = rt->sc->cam.coord;
-	ray.v_dir = v_dir;
-	return(ray);
+	ray.v_dir = dir;
+	return (ray);
 }
 
-t_v3d make_v_dir(t_rt *rt, double x, double y)
+t_v3d	make_v_dir(t_rt *rt, double x, double y)
 {
 	t_v3d	v_dir;
-	double	scale;
-	double	ratio;
+	double	a;
+	double	b;
+	double	c;
+	int		max;
 
-	ratio = WIN_W / (double)WIN_H;
-	scale = tan((rt->sc->cam.fov * 0.5) * M_PI / 180.0);
-	x = -(2 * (x + 0.5) / WIN_W - 1) * scale * ratio;
-	y = -(1 - 2 * (y + 0.5) / WIN_H) * scale;
-
-	// Construct the ray direction in camera space
-	v_dir = new_v3d(x, y, -1);
-
-	// Transform the ray direction to world space
-	v_dir = mat4_mul_v3d(get_inverse_view_transform(rt->sc->cam), v_dir);
-
-	// Normalize the ray direction
+	a = x + 0.5 - (WIN_W) * 0.5;
+	b = y + 0.5 - (WIN_H) * 0.5;
+	max = WIN_W > WIN_H ? WIN_W : WIN_H;
+	c = max / (2 * tan((rt->sc->cam.fov * 0.5) * M_PI / 180.0));
+	v_dir.x = 1 * a + 0 * b + 0 * c;
+	v_dir.y = 0 * a + 1 * b + 0 * c;
+	v_dir.z = 0 * a + 0 * b + 1 * c;
 	return (normalize(v_dir));
 }
 
 
+// /* creates a ray */
+// t_ray	make_ray(t_rt *rt, t_v3d v_dir)
+// {
+// 	t_ray	ray;
+
+// 	ray.coord = rt->sc->cam.coord;
+// 	ray.v_dir = v_dir;
+// 	return(ray);
+// }
+
 // t_v3d make_v_dir(t_rt *rt, double x, double y)
 // {
 // 	t_v3d	v_dir;
-// 	t_v3d	ray_Origin_World;
-// 	t_v3d	ray_P_World;
 // 	double	scale;
 // 	double	ratio;
 
-// 	ratio = WIN_W / WIN_H;
+// 	ratio = WIN_W / (double)WIN_H;
 // 	scale = tan((rt->sc->cam.fov * 0.5) * M_PI / 180.0);
-// 	x = -(2 * (x + 0.5) / WIN_W - 1) * ratio * scale;
+// 	x = -(2 * (x + 0.5) / WIN_W - 1) * scale * ratio;
 // 	y = -(1 - 2 * (y + 0.5) / WIN_H) * scale;
-// 	ray_Origin_World = mat4_mul_v3d(get_view_transform(rt->sc->cam), rt->sc->cam.coord);
-// 	ray_P_World = mat4_mul_v3d(get_view_transform(rt->sc->cam), new_v3d(x, y, -1));
-// 	v_dir = sub(ray_P_World, ray_Origin_World);
+
+// 	// Construct the ray direction in camera space
+// 	v_dir = new_v3d(x, y, -1);
+
+// 	// Transform the ray direction to world space
+// 	v_dir = mat4_mul_v3d(get_inverse_view_transform(rt->sc->cam), v_dir);
+
+// 	// Normalize the ray direction
 // 	return (normalize(v_dir));
 // }
 
