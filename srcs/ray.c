@@ -4,18 +4,31 @@
 t_v3d	make_v_dir(t_rt *rt, double i, double j);
 t_ray	make_ray(t_rt *rt, t_v3d v_dir);
 
-/* normalizes the given vector */
-t_v3d	normalize(t_v3d	a)
+// /* normalizes the given vector */
+// t_v3d	normalize(t_v3d	a)
+// {
+// 	t_v3d	res;
+// 	double	norm;
+
+// 	norm = norme(a);
+// 	res.x = a.x / norm;
+// 	res.y = a.y / norm;
+// 	res.z = a.z / norm;
+
+// 	return (res);
+// }
+
+double	dist(const t_v3d p1, const t_v3d p2)
 {
-	t_v3d	res;
-	double	norm;
+	return (sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2) + pow(p2.z - p1.z, 2)));
+}
 
-	norm = norme(a);
-	res.x = a.x / norm;
-	res.y = a.y / norm;
-	res.z = a.z / norm;
+t_v3d	normalize(t_v3d a)
+{
+	double	length;
 
-	return (res);
+	length = dist(new_v3d(0,0,0), a);
+	return (new_v3d(a.x / length, a.y / length, a.z / length));
 }
 
 /* creates all of the rays */
@@ -26,13 +39,14 @@ void	launch_rays(t_rt *rt)
 	t_ray	ray;
 	t_color	final_color;
 
-	y = 0;
-	while (y++ < WIN_H)
+	y = -1;
+	while (++y < WIN_H)
 	{
-		x = 0;
-		while (x++ < WIN_W)
+		x = -1;
+		while (++x < WIN_W)
 		{
 			ray = make_ray(rt, make_v_dir(rt, x, y));
+			// printf("ray.coord: %f, %f, %f\n", ray.coord.x, ray.coord.y, ray.coord.z);
 			ray.inter = closest_inter(rt, &ray);
 			// print_inter(ray.inter);
 			final_color = get_color(ray.inter);
@@ -45,7 +59,6 @@ void	launch_rays(t_rt *rt)
 t_ray	make_ray(t_rt *rt, t_v3d dir)
 {
 	t_ray	ray;
-
 	ray.coord = rt->sc->cam.coord;
 	ray.v_dir = dir;
 	return (ray);
