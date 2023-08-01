@@ -6,7 +6,7 @@
 /*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 14:19:12 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/08/01 14:23:20 by fgrasset         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:26:57 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,11 @@ bool intersect_obj(t_rt *rt, t_ray *ray, double max_distance)
 	while (objects)
 	{
 
-		if (objects->next && objects->i == ray->inter->i)
+		if (objects->i == ray->inter->i)
+		{
 			objects = objects->next;
-		// printf("%d\n", objects->i);
+			continue ;
+		}
 		t_inter *intersection = NULL;
 		if (objects->type == PLANE)
 			intersection = intersect_plane(ray, &objects->fig.pl);
