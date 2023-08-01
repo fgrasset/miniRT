@@ -69,6 +69,7 @@ typedef enum
 /* Linked list for all the objects in the scene */
 typedef struct s_objects
 {
+	int i;
 	FigureType type;
 	union u_figures	fig;
 	struct s_objects *next;
@@ -132,6 +133,7 @@ typedef struct s_mlbx
 /* struct for intersections */
 typedef struct s_inter
 {
+	int i;
 	FigureType	type;
 	union	u_figures obj;
 	double	dist;

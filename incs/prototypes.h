@@ -11,13 +11,13 @@ char		*clean_line(char *line);
 int			count_elements(char **tab);
 
 void		check_filename(char *file);
-void		line_parsing(int fd, char *line, t_rt *rt);
+void	line_parsing(int fd, char *line, t_rt *rt, int i);
 
 void		ambiance_parsing(char *line, t_rt *rt);
 void		light_parsing(char *line, t_rt *rt);
 void		camera_parsing(char *line, t_rt *rt);
 
-void		objects_parsing(char *line, t_rt *rt);
+int     objects_parsing(char *line, t_rt *rt, int i);
 
 t_objects	*last_object(t_objects	*lst);
 void		object_add_end(t_objects **lst, t_objects *new);

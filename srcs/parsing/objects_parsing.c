@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:22 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/07/19 10:59:04 by fgrasset         ###   ########.fr       */
+/*   Updated: 2023/07/28 16:12:38 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_cylinder	cylinder_parsing(char *line)
 	return (cylinder);
 }
 
-void	objects_parsing(char *line, t_rt *rt)
+int	objects_parsing(char *line, t_rt *rt, int i)
 {
 	t_objects	*new_object;
 
@@ -113,6 +113,9 @@ void	objects_parsing(char *line, t_rt *rt)
 		new_object->type = CYLINDER;
 		new_object->fig.cy = cylinder_parsing(line);
 	}
+	new_object->i = i;
+	i = i + 1;
 	new_object->next = NULL;
 	object_add_end(&rt->sc->obj, new_object);
+	return (i);
 }

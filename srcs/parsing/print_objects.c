@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:25:43 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/07/19 10:59:59 by fgrasset         ###   ########.fr       */
+/*   Updated: 2023/07/28 16:05:55 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	print_objects(const t_objects *obj)
 {
 	while (obj != NULL)
 	{
+		printf("NUMBER OF OBJECT: %d\n", obj->i);
 		switch (obj->type)
 		{
 			case PLANE:

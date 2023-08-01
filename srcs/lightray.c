@@ -6,7 +6,7 @@
 /*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 14:19:12 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/07/28 15:55:19 by lfabbian         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:02:17 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,24 +96,45 @@ t_color	diffuse_color(t_inter *inter, t_light *light, t_color color)
 	return (color);
 }
 
-bool	intersect_obj(t_rt *rt, t_ray *ray, double max_distance)
+bool intersect_obj(t_rt *rt, t_ray *ray, double max_distance)
 {
-	t_objects	*objects;
-	t_inter		*impact_obstacle;
+	t_objects *objects = rt->sc->obj;
+	t_inter *closest_intersection = NULL;
+	bool is_in_shadow = false;
 
-	objects  = rt->sc->obj;
 	while (objects)
 	{
-		impact_obstacle = closest_inter(rt, ray);
-		if (impact_obstacle && impact_obstacle->dist < max_distance)
+
+		if (objects->next && objects->i == ray->inter->i)
+			objects = objects->next;
+		// printf("%d\n", objects->i);
+		t_inter *intersection = NULL;
+		if (objects->type == PLANE)
+			intersection = intersect_plane(ray, &objects->fig.pl);
+		else if (objects->type == SPHERE)
+			intersection = intersect_sphere(ray, &objects->fig.sp);
+		else if (objects->type == CYLINDER)
+			intersection = intersect_cylinder(ray, &objects->fig.cy);
+
+		if (intersection && intersection->dist > 0 && intersection->dist < max_distance)
 		{
-			free (impact_obstacle);
-			return (true);
+			max_distance = intersection->dist;
+			if (closest_intersection)
+				free(closest_intersection);
+			closest_intersection = intersection;
+			is_in_shadow = true;
 		}
+		else
+			free(intersection);
 		objects = objects->next;
 	}
-	free (impact_obstacle);
-	return (false);
+	if (closest_intersection)
+	{
+		if (ray->inter)
+			free(ray->inter);
+		ray->inter = closest_intersection;
+	}
+	return (is_in_shadow);
 }
 
 t_color	shadow_color(t_color color, double shadow_intensity)
@@ -142,6 +163,6 @@ t_color	lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color)
 	if (!is_in_shadow)
 		final_color = diffuse_color(inter, &sc->light, final_color);
 	else
-		final_color = shadow_color(final_color, 0.5);
+		final_color = shadow_color(final_color, 1);
 	return (final_color);
 }
