@@ -14,6 +14,7 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 	curr_fig = rt->sc->obj;
 	while (curr_fig)
 	{
+		closest->i = curr_fig->i;
 		if (curr_fig->type == PLANE)
 			temp = intersect_plane(ray, &curr_fig->fig.pl);
 		else if (curr_fig->type == SPHERE)
