@@ -73,3 +73,8 @@ t_v3d	mult(t_v3d a, t_v3d b)
 	res.z = a.z * b.z;
 	return (res);
 }
+
+double	dot_product_v3d(t_v3d v1, t_v3d v2)
+{
+	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+}

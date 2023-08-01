@@ -34,3 +34,15 @@ double dot_product(t_v3d a, t_v3d b)
 int rgb_to_int(t_color rgb) {
 	return ((rgb.r & 0xff) << 16) | ((rgb.g & 0xff) << 8) | (rgb.b & 0xff);
 }
+
+double	dst(t_v3d *p1, t_v3d *p2)
+{
+	double	dx;
+	double	dy;
+	double	dz;
+
+	dx = p2->x - p1->x;
+	dy = p2->y - p1->y;
+	dz = p2->z - p1->z;
+	return (sqrt(dx * dx + dy * dy + dz * dz));
+}

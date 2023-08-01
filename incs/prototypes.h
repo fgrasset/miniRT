@@ -54,6 +54,7 @@ t_v3d		add(t_v3d a, t_v3d b);
 t_v3d		sub(t_v3d a, t_v3d b);
 t_v3d		sc_mult(t_v3d a, double nb);
 double		norme(t_v3d a);
+double		dot_product_v3d(t_v3d v1, t_v3d v2);
 t_v3d		cross(t_v3d a, t_v3d b);
 t_v3d		normalize(t_v3d	a);
 t_v3d		mult(t_v3d a, t_v3d b);
@@ -68,6 +69,7 @@ t_v4d		mat4_mul_v4d(t_mat4 m, t_v4d v);
 /* MATH */
 double		quad(double a, double b, double c);
 double		dot_product(t_v3d a, t_v3d b);
+double		dst(t_v3d *p1, t_v3d *p2);
 int			rgb_to_int(t_color rgb);
 t_mat4		mat4_translation(t_v3d t);
 t_mat4		mat4_identity(void);
@@ -75,10 +77,14 @@ t_mat4		get_view_transform(t_camera cam);
 t_mat4		get_inverse_view_transform(t_camera cam);
 t_v3d		mat4_mul_v3d(t_mat4 m, t_v3d v);
 
-/* LIGHTRAY */
-t_color int_to_rgb(const int r, const int g, const int b);
-t_color get_color(t_inter *inter);
-t_color lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color);
+/* LIGHTRAY & COLORS */
+t_color	int_to_rgb(const int r, const int g, const int b);
+t_color	get_color(t_inter *inter);
+t_color	lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color);
+t_color	ambiance_color(t_color color, t_ambiant amb);
+t_color	shadow_color(t_color color, double shadow_intensity);
+t_color	diffuse_color(t_inter *inter, t_light *light, t_color color);
+
 
 /* UTILS 	*/
 int			cmp(const char *s1, const char *s2);
