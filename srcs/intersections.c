@@ -26,6 +26,7 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 			closest = temp;
 		curr_fig = curr_fig->next;
 	}
+	// print_inter(closest);
 	return (closest);
 }
 
