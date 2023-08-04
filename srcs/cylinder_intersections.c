@@ -1,5 +1,7 @@
 #include "../incs/minirt.h"
 
+bool is_intersection_valid(t_ray *ray, t_cylinder *cylinder, double t, double height);
+
 /* function to calculate the intersection between a ray and a cylinder
 	it returns the closest dist to the intersection */
 // t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
@@ -12,7 +14,16 @@
 
 // 	inter = malloc(sizeof(t_inter));
 // 	tr_origin = sub(ray->coord, cylinder->coord);
-// 	t = quad((ray->v_dir.x * ray->v_dir.x) + (ray->v_dir.z * ray->v_dir.z), (2 * tr_origin.x * ray->v_dir.x) + (2 * tr_origin.z * ray->v_dir.z), pow(tr_origin.x, 2) + pow(tr_origin.z, 2) - pow(cylinder->r, 2));
+// 	double a = (ray->v_dir.x * ray->v_dir.x) + (ray->v_dir.z * ray->v_dir.z);
+// 	double b = 2 * ((ray->v_dir.x * tr_origin.x) + (ray->v_dir.z * tr_origin.z));
+// 	double c = (tr_origin.x * tr_origin.x) + (tr_origin.z * tr_origin.z) - (cylinder->r * cylinder->r);
+// 	// printf("a: %f, b: %f, c: %f\n", a, b, c);
+// 	// printf("tr_origin: (%f, %f, %f)\n", tr_origin.x, tr_origin.y, tr_origin.z);
+// 	// printf("ray->coord: (%f, %f, %f), ray->v_dir: (%f, %f, %f)\n", ray->coord.x, ray->coord.y, ray->coord.z, ray->v_dir.x, ray->v_dir.y, ray->v_dir.z);
+// 	// printf("cylinder->coord: (%f, %f, %f), cylinder->r: %f\n", cylinder->coord.x, cylinder->coord.y, cylinder->coord.z, cylinder->r);
+
+// 	t = quad(a, b, c);
+// 	// printf("t = %f\n", t);
 // 	if (t < 0)
 // 	{
 // 		inter->dist = INFINITY;
@@ -28,156 +39,79 @@
 // 	return (inter);
 // }
 
-double	solve_plane(t_v3d o, t_v3d d, t_v3d plane_p, t_v3d plane_nv)
-{
-	double	x;
-	double	denom;
-
-	denom = dot_product(plane_nv, d);
-	if (denom == 0)
-		return (INFINITY);
-	x = (dot_product(plane_nv, sub(plane_p, o))) / denom;
-	return (x > EPSILON ? x : INFINITY);
-}
-
-static double	caps_intersection(t_ray *ray, t_cylinder *cylinder)
-{
-	double	id1;
-	double	id2;
-	t_v3d	ip1;
-	t_v3d	ip2;
-	t_v3d	c2;
-
-	c2 = add(cylinder->coord, sc_mult(cylinder->norm_vec, cylinder->h));
-	id1 = solve_plane(ray->coord, ray->v_dir, cylinder->coord, cylinder->norm_vec);
-	id2 = solve_plane(ray->coord, ray->v_dir, c2, cylinder->norm_vec);
-	if (id1 < INFINITY || id2 < INFINITY)
-	{
-		ip1 = add(ray->coord, sc_mult(ray->v_dir, id1));
-		ip2 = add(ray->coord, sc_mult(ray->v_dir, id2));
-		if ((id1 < INFINITY && dist(ip1, cylinder->coord) <= cylinder->r) && (id2 < INFINITY && dist(ip2, c2) <= cylinder->r))
-			return (id1 < id2 ? id1 : id2);
-		else if (id1 < INFINITY && dist(ip1, cylinder->coord) <= cylinder->r)
-			return (id1);
-		else if (id2 < INFINITY && dist(ip2, c2) <= cylinder->r)
-			return (id2);
+t_v3d sc_div(t_v3d vec, double scalar) {
+	if (scalar != 0) {
+		vec.x /= scalar;
+		vec.y /= scalar;
+		vec.z /= scalar;
+	} else {
+		// Handle division by zero if necessary
+		// You could print an error message, return a specific value, etc.
+		printf("Warning: Division by zero in sc_div!\n");
 	}
-	return (INFINITY);
-}
-
-static bool	solve_cylinder(double x[2], t_ray *ray, t_cylinder *cylinder)
-{
-	t_v3d	v;
-	t_v3d	u;
-	double	a;
-	double	b;
-	double	c;
-
-	v = sc_mult(cylinder->norm_vec, dot_product(ray->v_dir, cylinder->norm_vec));
-	v = sub(ray->v_dir, v);
-	u = sc_mult(cylinder->norm_vec, dot_product(sub(ray->coord, cylinder->coord), cylinder->norm_vec));
-	u = sub(sub(ray->coord, cylinder->coord), u);
-	a = dot_product(v, v);
-	b = 2 * dot_product(v, u);
-	c = dot_product(u, u) - pow(cylinder->r, 2);
-	x[0] = (-b + sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
-	x[1] = (-b - sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
-	if (x[0] < EPSILON && x[1] < EPSILON)
-		return (0);
-	return (1);
-}
-
-static void		calc_cy_normal(double x2[2], t_cylinder *cylinder, double dist1, double dist2)
-{
-	double	dist;
-	double	x;
-
-	if ((dist1 >= 0 && dist1 <= cylinder->h && x2[0] > EPSILON) && (dist2 >= 0 && dist2 <= cylinder->h && x2[1] > EPSILON))
-	{
-		dist = x2[0] < x2[1] ? dist1 : dist2;
-		x = x2[0] < x2[1] ? x2[0] : x2[1];
+	return vec;
 	}
-	else if (dist1 >= 0 && dist1 <= cylinder->h && x2[0] > EPSILON)
+
+	t_inter *intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 	{
-		dist = dist1;
-		x = x2[0];
+	t_inter *inter;
+	double height = cylinder->h; // assuming height is a property of the cylinder
+
+	inter = malloc(sizeof(t_inter));
+	inter->type = CYLINDER;
+	inter->obj.cy = *cylinder;
+	t_v3d X = { ray->coord.x - cylinder->coord.x,
+				ray->coord.y - cylinder->coord.y,
+				ray->coord.z - cylinder->coord.z };
+
+	// Calculate coefficients of quadratic equation
+	double a = dot_product(ray->v_dir, ray->v_dir) - pow(dot_product(ray->v_dir, cylinder->norm_vec), 2);
+	double b = 2 * (dot_product(ray->v_dir, X) - (dot_product(ray->v_dir, cylinder->norm_vec) * dot_product(X, cylinder->norm_vec)));
+	double c = dot_product(X, X) - pow(dot_product(X, cylinder->norm_vec), 2) - pow(cylinder->r, 2);
+
+	// Solve quadratic equation
+	double delta = b * b - 4 * a * c;
+	if (delta < 0)
+	{
+		inter->dist = INFINITY;
+		return (inter);
+	}
+
+	double t0 = (-b - sqrt(delta)) / (2 * a);
+	double t1 = (-b + sqrt(delta)) / (2 * a);
+
+	// Check for intersection within finite bounds
+	if (!is_intersection_valid(ray, cylinder, t0, height))
+		t0 = t1;
+	if (!is_intersection_valid(ray, cylinder, t0, height))
+	{
+		inter->dist = INFINITY;
+		return (inter);
+	}
+
+	if (t1 >= 0 && t1 < t0 && is_intersection_valid(ray, cylinder, t1, height))
+	{
+		inter->dist = t1;
 	}
 	else
 	{
-		dist = dist2;
-		x = x2[1];
+		inter->dist = t0;
 	}
-	x2[0] = x;
-	// return (normalize(sub(sub(sc_mult(ray->v_dir, x),	sc_mult(cylinder.norm_vec, dist)), sub(cylinder.coord, ray.coord))));
-}
 
-static double	cy_intersection(t_ray *ray, t_cylinder *cylinder)
-{
-	double	x2[2];
-
-	if (!solve_cylinder(x2, ray, cylinder))
-		return (INFINITY);
-	double dist1 = dot_product(cylinder->norm_vec, sub(sc_mult(ray->v_dir, x2[0]), sub(cylinder->coord, ray->coord)));
-	double dist2 = dot_product(cylinder->norm_vec, sub(sc_mult(ray->v_dir, x2[1]), sub(cylinder->coord, ray->coord)));
-	if (!((dist1 >= 0 && dist1 <= cylinder->h && x2[0] > EPSILON) || (dist2 >= 0 && dist2 <= cylinder->h && x2[0] > EPSILON)))
-		return (INFINITY);
-	calc_cy_normal(x2, cylinder, dist1, dist2);
-	return (x2[0]);
-}
-
-double	cylinder_intersection(t_ray *ray, t_cylinder *cylinder, bool *is_on_side)
-{
-	double	cylinder_inter;
-	double	caps_inter;
-
-	cylinder_inter = cy_intersection(ray, cylinder);
-	caps_inter = caps_intersection(ray, cylinder);
-	if (cylinder_inter < INFINITY || caps_inter < INFINITY)
-	{
-		if (cylinder_inter < caps_inter)
-		{
-			*is_on_side = true;
-			return (cylinder_inter);
-		}
-		return (caps_inter);
-	}
-	return (INFINITY);
-}
-
-t_v3d get_closest_point_from_line(t_v3d A, t_v3d B, t_v3d P)
-{
-	t_v3d AP = sub(P, A);
-	t_v3d AB = sub(B, A);
-	double ab2 = dot_product(AB, AB);
-	double ap_ab = dot_product(AP, AB);
-	double t = ap_ab / ab2;
-	if (t < 0.0)
-		t = 0.0;
-	else if (t > 1.0)
-		t = 1.0;
-	return (add(A, sc_mult(AB, t)));
-}
-
-t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
-{
-	t_inter		*inter;
-
-	double		t;
-	bool		is_on_side;
-
-	inter = malloc(sizeof(t_inter));
-	is_on_side = false;
-	if ((t = cylinder_intersection(ray, cylinder, &is_on_side)) > 0)
-	{
-		inter->dist = t;
-		inter->point = new_v3d(t * ray->v_dir.x, t * ray->v_dir.y, t * ray->v_dir.z);
-		if (is_on_side)
-			inter->normal = sub(get_closest_point_from_line(cylinder->coord, add(cylinder->coord, sc_mult(cylinder->norm_vec, cylinder->h)), inter->point), inter->point);
-		else
-			inter->normal = cylinder->norm_vec;
-		inter->normal = normalize(inter->normal);
-		return (inter);
-	}
-	inter->dist = INFINITY;
 	return (inter);
+}
+
+bool is_intersection_valid(t_ray *ray, t_cylinder *cylinder, double t, double height)
+{
+    // Compute intersection point
+    t_v3d P_intersection = add(ray->coord, sc_mult(ray->v_dir, t));
+
+    // Compute vector from cylinder base to intersection point
+    t_v3d D = sub(P_intersection, cylinder->coord);
+
+    // Project that vector onto cylinder's normal
+    double m = dot_product(D, cylinder->norm_vec);
+
+    // Check if m is within the bounds of the cylinder
+    return (m >= 0 && m <= height);
 }
