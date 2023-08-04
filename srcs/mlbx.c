@@ -8,8 +8,7 @@ int	key_function(const int keycode, t_rt *rt)
 {
 	if (keycode == 53)
 	{
-		mlx_destroy_window(rt->mlbx->mlx, rt->mlbx->mlx_win);
-		exit(0);
+		destroy(rt);
 	}
 	return (0);
 }
@@ -26,7 +25,7 @@ void	make_window(t_rt *rt)
 	rt->mlbx->img.img = mlx_new_image(mlbx->mlx, WIN_W, WIN_H);
 	rt->mlbx->img.addr = mlx_get_data_addr(mlbx->img.img, &mlbx->img.bits_per_pixel, &mlbx->img.line_length, &mlbx->img.endian);
 	display(rt);
-	mlx_hook(mlbx->mlx_win, 17, 0, destroy, mlbx);
+	mlx_hook(mlbx->mlx_win, 17, 0, destroy, rt);
 	mlx_key_hook(mlbx->mlx_win, key_function, rt);
 	mlx_loop(mlbx->mlx);
 }
