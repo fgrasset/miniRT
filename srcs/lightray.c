@@ -6,7 +6,7 @@
 /*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 14:19:12 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/08/04 14:50:39 by lfabbian         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:08:26 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	inter_obj(t_rt *rt, t_ray *ray, double max_distance)
 			intersection = intersect_sphere(ray, &objects->fig.sp);
 		else if (objects->type == CYLINDER)
 			intersection = intersect_cylinder(ray, &objects->fig.cy);
-		if (intersection && intersection->dist > 0 && intersection->dist < max_distance)
+		if (intersection && intersection->dist > EPSILON && intersection->dist < max_distance)
 		{
 			max_distance = intersection->dist;
 			if (closest_intersection)
@@ -67,9 +67,9 @@ t_color	lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color)
 	to_light.coord = inter->point;
 	to_light.v_dir = normalize(sub(sc->light.coord, inter->point));
 	shad = inter_obj(rt, &to_light, dst(&to_light.coord, &sc->light.coord));
-	// if (!shad)
-	final_color = diffuse_color(inter, &sc->light, final_color);
-	// else
-	// final_color = shadow_color(final_color, 1);
+	if (!shad)
+		final_color = diffuse_color(inter, &sc->light, final_color);
+	if (shad)
+		final_color = shadow_color(final_color, 1);
 	return (final_color);
 }
