@@ -1,7 +1,5 @@
 #include "../incs/minirt.h"
 
-void print_objects(const t_objects *obj);
-
 int	main(int argc, char **argv)
 {
 	t_rt	*rt;
@@ -11,9 +9,7 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		file_parsing(argv[1], rt);
-		// print_objects(rt->sc->obj);
 		make_window(rt);
-		// launch_rays(rt);
 		free_structures(rt);
 	}
 	else
@@ -22,17 +18,3 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("\033[31m./miniRT [scene_path]\n\033[0m", 2);
 	}
 }
-
-/*
-Pour le parsing, faire un ft_atoi pour les double, un pour les vecteurs, ils exit si le format n'est pas correct
-Puis GNL + slit + strcmp pour savoir comment les classer dans une futur struct ?
-
-Ensuite j'imagine que pour placer un pixel, il faudra faire passer les infos par pleins de fonctions différentes
-qui vont à chaqu fois modifier légèrement les données du pixel en fonctions d'autres paramètres.
-
-Il faut apparemment plutôt utiliser des matrices de transformations
-
-Idée pour les structures, en faire une par type d'élément.
-Donc,t_camera, t_light, t_scenes, t_figures
-Quoi que le gars a 25 struct wtf
-*/

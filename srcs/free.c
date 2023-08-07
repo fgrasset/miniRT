@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 13:51:04 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/07/17 13:51:08 by lfabbian         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../incs/minirt.h"
 
 void	free_objects(t_rt *rt)
@@ -31,6 +19,11 @@ void	free_structures(t_rt *rt)
 	free (rt);
 }
 
+void	free_inter(t_inter *inter)
+{
+	free (inter);
+}
+
 void	free_tab(char **tab)
 {
 	int	i;
@@ -45,4 +38,24 @@ void	free_tab(char **tab)
 		}
 		free (tab);
 	}
+}
+
+void	free_scene(t_scene *scene)
+{
+	if (scene->obj)
+		free (scene->obj);
+	free (scene);
+}
+
+void	free_rt(t_rt *rt)
+{
+	if (rt->mlbx)
+	{
+		free (rt->mlbx->img.addr);
+		free (rt->mlbx->img.img);
+		free (rt->mlbx);
+	}
+	if (rt->sc)
+		free_scene(rt->sc);
+	free (rt);
 }

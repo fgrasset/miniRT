@@ -1,117 +1,88 @@
 #include "../incs/minirt.h"
 
-bool is_intersection_valid(t_ray *ray, t_cylinder *cylinder, double t, double height);
+bool	is_intersection_valid(t_ray *ray, t_cylinder *cy, double t, double h);
+t_v3d	cylinder_normal(t_v3d P, t_cylinder *cylinder);
+int		quad_cylinder(t_ray *ray, t_inter *inter, \
+t_cylinder *cylinder, t_v3d X);
 
-/* function to calculate the intersection between a ray and a cylinder
-	it returns the closest dist to the intersection */
-// t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
-// {
-// 	t_inter	*inter;
-// 	t_v3d	tr_origin;
-// 	t_v3d	tr_point;
-// 	double	t;
-// 	double	mag;
+t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
+{
+	t_inter	*inter;
+	t_v3d	x;
 
-// 	inter = malloc(sizeof(t_inter));
-// 	tr_origin = sub(ray->coord, cylinder->coord);
-// 	double a = (ray->v_dir.x * ray->v_dir.x) + (ray->v_dir.z * ray->v_dir.z);
-// 	double b = 2 * ((ray->v_dir.x * tr_origin.x) + (ray->v_dir.z * tr_origin.z));
-// 	double c = (tr_origin.x * tr_origin.x) + (tr_origin.z * tr_origin.z) - (cylinder->r * cylinder->r);
-// 	// printf("a: %f, b: %f, c: %f\n", a, b, c);
-// 	// printf("tr_origin: (%f, %f, %f)\n", tr_origin.x, tr_origin.y, tr_origin.z);
-// 	// printf("ray->coord: (%f, %f, %f), ray->v_dir: (%f, %f, %f)\n", ray->coord.x, ray->coord.y, ray->coord.z, ray->v_dir.x, ray->v_dir.y, ray->v_dir.z);
-// 	// printf("cylinder->coord: (%f, %f, %f), cylinder->r: %f\n", cylinder->coord.x, cylinder->coord.y, cylinder->coord.z, cylinder->r);
-
-// 	t = quad(a, b, c);
-// 	// printf("t = %f\n", t);
-// 	if (t < 0)
-// 	{
-// 		inter->dist = INFINITY;
-// 		return (inter);
-// 	}
-// 	inter->point = add(ray->coord, sc_mult(ray->v_dir, t));
-// 	tr_point = sub(inter->point, cylinder->coord);
-// 	inter->normal = new_v3d(tr_point.x, 0, tr_point.z);
-// 	mag = sqrt(dot_product(inter->normal, inter->normal));
-// 	inter->normal.x /= mag;
-// 	inter->normal.z /= mag;
-// 	inter->dist = t;
-// 	return (inter);
-// }
-
-t_v3d sc_div(t_v3d vec, double scalar) {
-	if (scalar != 0) {
-		vec.x /= scalar;
-		vec.y /= scalar;
-		vec.z /= scalar;
-	} else {
-		// Handle division by zero if necessary
-		// You could print an error message, return a specific value, etc.
-		printf("Warning: Division by zero in sc_div!\n");
-	}
-	return vec;
-	}
-
-	t_inter *intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
-	{
-	t_inter *inter;
-	double height = cylinder->h; // assuming height is a property of the cylinder
-
-	inter = malloc(sizeof(t_inter));
+	inter = calloc(sizeof(t_inter), 1);
 	inter->type = CYLINDER;
 	inter->obj.cy = *cylinder;
-	t_v3d X = { ray->coord.x - cylinder->coord.x,
-				ray->coord.y - cylinder->coord.y,
-				ray->coord.z - cylinder->coord.z };
-
-	// Calculate coefficients of quadratic equation
-	double a = dot_product(ray->v_dir, ray->v_dir) - pow(dot_product(ray->v_dir, cylinder->norm_vec), 2);
-	double b = 2 * (dot_product(ray->v_dir, X) - (dot_product(ray->v_dir, cylinder->norm_vec) * dot_product(X, cylinder->norm_vec)));
-	double c = dot_product(X, X) - pow(dot_product(X, cylinder->norm_vec), 2) - pow(cylinder->r, 2);
-
-	// Solve quadratic equation
-	double delta = b * b - 4 * a * c;
-	if (delta < 0)
-	{
-		inter->dist = INFINITY;
+	x = new_v3d(ray->coord.x - cylinder->coord.x, ray->coord.y - \
+	cylinder->coord.y, ray->coord.z - cylinder->coord.z);
+	if (!quad_cylinder(ray, inter, cylinder, x))
 		return (inter);
-	}
-
-	double t0 = (-b - sqrt(delta)) / (2 * a);
-	double t1 = (-b + sqrt(delta)) / (2 * a);
-
-	// Check for intersection within finite bounds
-	if (!is_intersection_valid(ray, cylinder, t0, height))
-		t0 = t1;
-	if (!is_intersection_valid(ray, cylinder, t0, height))
-	{
-		inter->dist = INFINITY;
-		return (inter);
-	}
-
-	if (t1 >= 0 && t1 < t0 && is_intersection_valid(ray, cylinder, t1, height))
-	{
-		inter->dist = t1;
-	}
-	else
-	{
-		inter->dist = t0;
-	}
-
+	inter->point = add(ray->coord, sc_mult(ray->v_dir, inter->dist));
+	inter->normal = cylinder_normal(inter->point, cylinder);
 	return (inter);
 }
 
-bool is_intersection_valid(t_ray *ray, t_cylinder *cylinder, double t, double height)
+int	quad_cylinder(t_ray *ray, t_inter *inter, t_cylinder *cylinder, t_v3d X)
 {
-    // Compute intersection point
-    t_v3d P_intersection = add(ray->coord, sc_mult(ray->v_dir, t));
+	double	quad[4];
+	double	dist[2];
 
-    // Compute vector from cylinder base to intersection point
-    t_v3d D = sub(P_intersection, cylinder->coord);
+	quad[0] = dot_product(ray->v_dir, ray->v_dir) \
+	- pow(dot_product(ray->v_dir, cylinder->norm_vec), 2);
+	quad[1] = 2 * (dot_product(ray->v_dir, X) - \
+	(dot_product(ray->v_dir, cylinder->norm_vec) \
+	* dot_product(X, cylinder->norm_vec)));
+	quad[2] = dot_product(X, X) - \
+	pow(dot_product(X, cylinder->norm_vec), 2) - pow(cylinder->r, 2);
+	quad[3] = quad[1] * quad[1] - 4 * quad[0] * quad[2];
+	if (quad[3] < 0)
+		return (inter->dist = INFINITY, 0);
+	dist[0] = (-quad[1] - sqrt(quad[3])) / (2 * quad[0]);
+	dist[1] = (-quad[1] + sqrt(quad[3])) / (2 * quad[0]);
+	if (!is_intersection_valid(ray, cylinder, dist[0], cylinder->h))
+		dist[0] = dist[1];
+	if (!is_intersection_valid(ray, cylinder, dist[0], cylinder->h))
+		return (inter->dist = INFINITY, 0);
+	if (dist[1] >= 0 && dist[1] < dist[0] && \
+	is_intersection_valid(ray, cylinder, dist[1], cylinder->h))
+		inter->dist = dist[1];
+	else
+		inter->dist = dist[0];
+	return (1);
+}
 
-    // Project that vector onto cylinder's normal
-    double m = dot_product(D, cylinder->norm_vec);
+bool	is_intersection_valid(t_ray *ray, t_cylinder *cy, double t, double h)
+{
+	t_v3d	p_intersection;
+	t_v3d	d;
+	double	m;
 
-    // Check if m is within the bounds of the cylinder
-    return (m >= 0 && m <= height);
+	p_intersection = add(ray->coord, sc_mult(ray->v_dir, t));
+	// Compute vector from cy base to intersection point
+	d = sub(p_intersection, cy->coord);
+	// Project that vector onto cy's normal
+	m = dot_product(d, cy->norm_vec);
+	// Check if m is within the bounds of the cylinder
+	return (m >= 0 && m <= h);
+}
+
+t_v3d	cylinder_normal(t_v3d P, t_cylinder *cylinder)
+{
+	t_v3d	cp;
+	t_v3d	norm_dir;
+	t_v3d	normal;
+	double	m;
+	double	length;
+
+	cp = sub(P, cylinder->coord);
+	// Project that vector onto cylinder's normal
+	m = dot_product(cp, cylinder->norm_vec);
+	// Subtracting the projection from the intersection point gives a vector
+	// that is perpendicular to the cylinder's axis (or normal vector).
+	norm_dir = sub(cp, sc_mult(cylinder->norm_vec, m));
+	// Normalize this direction to get the normal at the intersection point
+	length = sqrt(dot_product(norm_dir, norm_dir));
+	normal = new_v3d(norm_dir.x / length, norm_dir.y \
+	/ length, norm_dir.z / length);
+	return (normal);
 }

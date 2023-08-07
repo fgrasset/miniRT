@@ -1,8 +1,7 @@
-# include "../incs/minirt.h"
+#include "../incs/minirt.h"
 
 int		destroy(t_rt *rt);
 int		display(t_rt *rt);
-void	background(t_rt	*rt);
 
 int	key_function(const int keycode, t_rt *rt)
 {
@@ -21,9 +20,10 @@ void	make_window(t_rt *rt)
 	mlbx = malloc(sizeof(t_mlbx));
 	rt->mlbx = mlbx;
 	rt->mlbx->mlx = mlx_init();
-	rt->mlbx->mlx_win = mlx_new_window(mlbx->mlx,WIN_W, WIN_H, "MiniRT");
+	rt->mlbx->mlx_win = mlx_new_window(mlbx->mlx, WIN_W, WIN_H, "MiniRT");
 	rt->mlbx->img.img = mlx_new_image(mlbx->mlx, WIN_W, WIN_H);
-	rt->mlbx->img.addr = mlx_get_data_addr(mlbx->img.img, &mlbx->img.bits_per_pixel, &mlbx->img.line_length, &mlbx->img.endian);
+	rt->mlbx->img.addr = mlx_get_data_addr(mlbx->img.img, \
+	&mlbx->img.bits_per_pixel, &mlbx->img.line_length, &mlbx->img.endian);
 	display(rt);
 	mlx_hook(mlbx->mlx_win, 17, 0, destroy, rt);
 	mlx_key_hook(mlbx->mlx_win, key_function, rt);
@@ -34,7 +34,7 @@ void	make_window(t_rt *rt)
 int	destroy(t_rt *rt)
 {
 	mlx_destroy_window(rt->mlbx->mlx, rt->mlbx->mlx_win);
-	// to_free(rt, 'M'); //free the window
+	free_rt(rt);
 	exit(0);
 	return (0);
 }
@@ -42,9 +42,9 @@ int	destroy(t_rt *rt)
 /* updates the displayed image */
 int	display(t_rt *rt)
 {
-	// background(rt);
 	launch_rays(rt);
-	mlx_put_image_to_window(rt->mlbx->mlx, rt->mlbx->mlx_win, rt->mlbx->img.img, 0, 0);
+	mlx_put_image_to_window(rt->mlbx->mlx, rt->mlbx->mlx_win, \
+	rt->mlbx->img.img, 0, 0);
 	return (0);
 }
 
@@ -58,22 +58,5 @@ void	my_mlx_pixel_put(t_img img, int x, int y, int color)
 		dst = img.addr + (y * img.line_length + \
 		x * (img.bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
-	}
-}
-
-/* draws the background of the map */
-void	background(t_rt	*rt)
-{
-	int	height;
-	int	width;
-
-	height = -1;
-	while (++height < WIN_H)
-	{
-		width = -1;
-		while (++width < WIN_W)
-		{
-			my_mlx_pixel_put(rt->mlbx->img, width, height, 0x0000ff);
-		}
 	}
 }

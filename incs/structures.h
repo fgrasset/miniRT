@@ -93,7 +93,6 @@ typedef struct s_camera
 	double	fov;
 	t_v3d	coord;
 	t_v3d	ori;
-	// t_initc	init;
 } t_camera;
 
 typedef struct s_light

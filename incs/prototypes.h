@@ -9,25 +9,19 @@ int			print_error(char *error_message);
 void		file_parsing(char *file, t_rt *rt);
 char		*clean_line(char *line);
 int			count_elements(char **tab);
-
 void		check_filename(char *file);
-void	line_parsing(int fd, char *line, t_rt *rt, int i);
-
+void		line_parsing(int fd, char *line, t_rt *rt, int i);
 void		ambiance_parsing(char *line, t_rt *rt);
 void		light_parsing(char *line, t_rt *rt);
 void		camera_parsing(char *line, t_rt *rt);
-
-int     objects_parsing(char *line, t_rt *rt, int i);
-
+int			objects_parsing(char *line, t_rt *rt, int i);
 t_objects	*last_object(t_objects	*lst);
 void		object_add_end(t_objects **lst, t_objects *new);
 int			number_objects(t_objects *lst);
-
 int			is_float(char *str);
 bool		is_color(char *str);
 int			is_positive(char *str);
 int			is_range(float number);
-
 float		s_to_f(char *str);
 float		parse_ratio(char *str, float ratio);
 t_color		parse_color(char *line, t_color colors);
@@ -47,7 +41,6 @@ t_inter		*intersect_sphere(t_ray *ray, t_sphere *sphere);
 t_inter		*intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
 int			is_point_in_object(t_rt *rt, t_v3d *point);
 
-
 /* v3d */
 t_v3d		new_v3d(double x, double y, double z);
 t_v3d		add(t_v3d a, t_v3d b);
@@ -65,7 +58,6 @@ t_v4d		v4d_from_v3d(t_v3d v, double w);
 t_v3d		v4d_to_v3d(t_v4d v);
 t_v4d		mat4_mul_v4d(t_mat4 m, t_v4d v);
 
-
 /* MATH */
 double		quad(double a, double b, double c);
 double		dot_product(t_v3d a, t_v3d b);
@@ -79,15 +71,14 @@ t_v3d		mat4_mul_v3d(t_mat4 m, t_v3d v);
 double		dist(const t_v3d p1, const t_v3d p2);
 
 /* LIGHTRAY & COLORS */
-t_color	int_to_rgb(const int r, const int g, const int b);
-t_color	get_color(t_inter *inter);
-t_color	lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color);
-t_color	ambiance_color(t_color color, t_ambiant amb);
-t_color	shadow_color(t_color color, double shadow_intensity);
-t_color	diffuse_color(t_inter *inter, t_light *light, t_color color);
+t_color		int_to_rgb(const int r, const int g, const int b);
+t_color		get_color(t_inter *inter);
+t_color		lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color);
+t_color		ambiance_color(t_color color, t_ambiant amb);
+t_color		shadow_color(t_color color, double shadow_intensity);
+t_color		diffuse_color(t_inter *inter, t_light *light, t_color color);
 
-
-/* UTILS 	*/
+/* UTILS */
 int			cmp(const char *s1, const char *s2);
 void		print_v3d(t_v3d vect);
 void		print_inter(t_inter *inter);
@@ -96,5 +87,7 @@ void		print_inter(t_inter *inter);
 void		free_structures(t_rt *rt);
 void		free_tab(char **tab);
 void		free_objects(t_rt *rt);
+void		free_inter(t_inter *inter);
+void		free_rt(t_rt *rt);
 
 #endif
