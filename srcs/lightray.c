@@ -27,19 +27,17 @@ bool	inter_obj(t_rt *rt, t_ray *ray, double max_distance)
 		if (intersection && intersection->dist > EPSILON && intersection->dist < max_distance)
 		{
 			max_distance = intersection->dist;
-			if (closest_intersection)
-				free(closest_intersection);
+			free_inter(closest_intersection);
 			closest_intersection = intersection;
 			is_in_shadow = true;
 		}
 		else
-			free(intersection);
+			free_inter(intersection);
 		objects = objects->next;
 	}
 	if (closest_intersection)
 	{
-		if (ray->inter)
-			free(ray->inter);
+		free_inter(ray->inter);
 		ray->inter = closest_intersection;
 	}
 	return (is_in_shadow);
