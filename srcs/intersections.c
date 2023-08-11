@@ -21,11 +21,15 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 			temp = intersect_sphere(ray, &curr_fig->fig.sp);
 		else if (curr_fig->type == CYLINDER)
 			temp = intersect_cylinder(ray, &curr_fig->fig.cy);
-		if (temp->dist > 0 && is_closest(closest, temp))
+		if (closest && temp->dist > 0 && is_closest(closest, temp))
+		{
+			free_inter(closest);
 			closest = temp;
+		}
+		else
+			free_inter(temp);
 		curr_fig = curr_fig->next;
 	}
-	// free_inter(temp);
 	return (closest);
 }
 

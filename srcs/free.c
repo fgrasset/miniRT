@@ -21,7 +21,8 @@ void	free_structures(t_rt *rt)
 
 void	free_inter(t_inter *inter)
 {
-	free (inter);
+	if (inter)
+		free (inter);
 }
 
 void	free_tab(char **tab)
