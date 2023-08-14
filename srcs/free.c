@@ -12,13 +12,6 @@ void	free_objects(t_rt *rt)
 	}
 }
 
-void	free_structures(t_rt *rt)
-{
-	free_objects(rt);
-	free (rt->sc);
-	free (rt);
-}
-
 /* checks if the intersections exists, then frees it */
 void	free_inter(t_inter *inter)
 {
@@ -57,6 +50,8 @@ void	free_rt(t_rt *rt)
 		free (rt->mlbx->img.img);
 		free (rt->mlbx);
 	}
+	if (rt->sc->obj)
+		free_objects(rt);
 	if (rt->sc)
 		free_scene(rt->sc);
 	free (rt);

@@ -15,7 +15,7 @@ t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
 		return (inter);
 	}
 	t = dot_product(sub(plane->coord, ray->coord), plane->ori) / denom;
-	if (t < EPSILON)
+	if (t < E)
 	{
 		inter->dist = INFINITY;
 		return (inter);
@@ -24,7 +24,7 @@ t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
 	inter->obj.pl = *plane;
 	inter->dist = t;
 	inter->point = add(ray->coord, sc_mult(ray->v_dir, t));
-	inter->point = add(inter->point, sc_mult(inter->normal, EPSILON));
+	inter->point = add(inter->point, sc_mult(inter->normal, E));
 	inter->normal = plane->ori;
 	return (inter);
 }

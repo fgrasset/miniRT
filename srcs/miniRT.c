@@ -10,7 +10,6 @@ int	main(int argc, char **argv)
 	{
 		file_parsing(argv[1], rt);
 		make_window(rt);
-		free_structures(rt);
 	}
 	else
 	{

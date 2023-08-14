@@ -36,7 +36,6 @@ void	launch_rays(t_rt *rt)
 			final_color = get_color(ray.inter);
 			final_color = lights_shadows(rt, rt->sc, ray.inter, final_color);
 			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(final_color));
-			ray.inter = NULL;
 		}
 	}
 }
@@ -64,7 +63,6 @@ t_v3d	make_v_dir(t_rt *rt, double x, double y)
 		max = WIN_W;
 	else
 		max = WIN_H;
-	// max = WIN_W > WIN_H ? WIN_W : WIN_H;
 	c = max / (2 * tan((rt->sc->cam.fov * 0.5) * M_PI / 180.0));
 	v_dir.x = 1 * a + 0 * b + 0 * c;
 	v_dir.y = 0 * a + 1 * b + 0 * c;

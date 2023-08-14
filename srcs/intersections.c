@@ -9,7 +9,7 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 	t_inter		*temp;
 	t_objects	*curr_fig;
 
-	closest = malloc(sizeof(t_inter));
+	closest = ft_calloc(sizeof(t_inter), 1);
 	closest->dist = INFINITY;
 	curr_fig = rt->sc->obj;
 	while (curr_fig)
@@ -21,17 +21,12 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 			temp = intersect_sphere(ray, &curr_fig->fig.sp);
 		else if (curr_fig->type == CYLINDER)
 			temp = intersect_cylinder(ray, &curr_fig->fig.cy);
-		printf("adress: %p\n", temp);
 		if (closest && temp->dist > 0 && is_closest(closest, temp))
-		{
-			if (closest != temp)
-				free_inter(closest);
+			free_inter(closest);
+		if (closest && temp->dist > 0 && is_closest(closest, temp))
 			closest = temp;
-		}
 		else
-		{
 			free_inter(temp);
-		}
 		curr_fig = curr_fig->next;
 	}
 	return (closest);

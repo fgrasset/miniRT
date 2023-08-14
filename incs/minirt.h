@@ -13,7 +13,7 @@
 
 # define WIN_W 1200
 # define WIN_H 800
-# define EPSILON 1e-4
+# define E 1e-4
 
 /* main structure used for everything */
 typedef struct s_rt

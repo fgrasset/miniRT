@@ -1,47 +1,54 @@
 #include "../incs/minirt.h"
 
-bool	inter_obj(t_rt *rt, t_ray *ray, double max_distance)
+void	inter_space(t_ray *ray, t_objects *objects, t_inter **intersection);
+void	saving_space(double *max, t_inter	**closest_intersection, \
+t_inter	*intersection, bool *is_in_shadow);
+
+bool	inter_obj(t_rt *rt, t_ray *ray, double max)
 {
 	t_objects	*objects;
-	t_inter		*closest_intersection;
-	t_inter		*intersection;
+	t_inter		*close;
+	t_inter		*inter;
 	bool		is_in_shadow;
 
 	objects = rt->sc->obj;
-	closest_intersection = ft_calloc(sizeof(t_inter), 1);
+	close = ft_calloc(sizeof(t_inter), 1);
 	is_in_shadow = false;
 	while (objects)
 	{
 		if (objects->i != ray->inter->i)
 		{
-			intersection = NULL;
-			if (objects->type == PLANE)
-				intersection = intersect_plane(ray, &objects->fig.pl);
-			else if (objects->type == SPHERE)
-				intersection = intersect_sphere(ray, &objects->fig.sp);
-			else if (objects->type == CYLINDER)
-				intersection = intersect_cylinder(ray, &objects->fig.cy);
-			if (intersection && intersection->dist > EPSILON && intersection->dist < max_distance)
-			{
-				max_distance = intersection->dist;
-				free_inter(closest_intersection);
-				closest_intersection = intersection;
-				is_in_shadow = true;
-			}
+			inter = NULL;
+			inter_space(ray, objects, &inter);
+			if (inter && inter->dist > E && inter->dist < max)
+				saving_space(&max, &close, inter, &is_in_shadow);
 			else
-			{
-				free_inter(intersection);
-				intersection = NULL;
-			}
+				free_inter(inter);
 		}
 		objects = objects->next;
 	}
-	if (closest_intersection)
-	{
-		free_inter(ray->inter);
-		ray->inter = closest_intersection;
-	}
+	if (close)
+		ray->inter = close;
 	return (is_in_shadow);
+}
+
+void	inter_space(t_ray *ray, t_objects *objects, t_inter **intersection)
+{
+	if (objects->type == PLANE)
+		*intersection = intersect_plane(ray, &objects->fig.pl);
+	else if (objects->type == SPHERE)
+		*intersection = intersect_sphere(ray, &objects->fig.sp);
+	else if (objects->type == CYLINDER)
+		*intersection = intersect_cylinder(ray, &objects->fig.cy);
+}
+
+void	saving_space(double *max_distance, t_inter	**closest_intersection, \
+t_inter	*intersection, bool *is_in_shadow)
+{
+	*max_distance = intersection->dist;
+	free_inter(*closest_intersection);
+	*closest_intersection = intersection;
+	*is_in_shadow = true;
 }
 
 t_color	lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color)
@@ -58,6 +65,7 @@ t_color	lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color)
 		final_color = diffuse_color(inter, &sc->light, final_color);
 	if (shad)
 		final_color = shadow_color(final_color, 1);
-	free(inter);
+	free_inter(to_light.inter);
+	free_inter(inter);
 	return (final_color);
 }
