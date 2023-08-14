@@ -36,7 +36,6 @@ void	launch_rays(t_rt *rt)
 			final_color = get_color(ray.inter);
 			final_color = lights_shadows(rt, rt->sc, ray.inter, final_color);
 			my_mlx_pixel_put(rt->mlbx->img, x, y, rgb_to_int(final_color));
-			// free_inter(ray.inter);
 			ray.inter = NULL;
 		}
 	}

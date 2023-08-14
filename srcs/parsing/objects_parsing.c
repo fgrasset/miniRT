@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:22 by lfabbian          #+#    #+#             */
-/*   Updated: 2023/07/28 16:12:38 by lfabbian         ###   ########.fr       */
+/*   Updated: 2023/08/14 09:57:42 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	objects_parsing(char *line, t_rt *rt, int i)
 {
 	t_objects	*new_object;
 
-	new_object = malloc(sizeof(t_objects));
+	new_object = ft_calloc(sizeof(t_objects), 1);
 	if (!new_object)
 		print_error("malloc for new object failed");
 	if (!ft_strncmp(line, "pl ", 3))

@@ -89,5 +89,7 @@ void		free_tab(char **tab);
 void		free_objects(t_rt *rt);
 void		free_inter(t_inter *inter);
 void		free_rt(t_rt *rt);
+void	print_objects(const t_objects *obj);
+
 
 #endif

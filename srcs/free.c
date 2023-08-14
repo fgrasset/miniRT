@@ -7,16 +7,6 @@ void	free_objects(t_rt *rt)
 	while (rt->sc->obj)
 	{
 		obj = rt->sc->obj->next;
-		// if (obj->fig)
-		// 	free((void *)obj->fig);
-		// {
-		// 	if (obj->fig == PLANE)
-		// 		free(obj->fig.pl);
-		// 	else if (obj->fig == SPHERE)
-		// 		free(obj->fig.sp);
-		// 	else if (obj->fig == CYLINDER)
-		// 		free(obj->fig.cy);
-		// }
 		free(rt->sc->obj);
 		rt->sc->obj = obj;
 	}
@@ -33,10 +23,7 @@ void	free_structures(t_rt *rt)
 void	free_inter(t_inter *inter)
 {
 	if (inter)
-	{
 		free (inter);
-		inter = NULL;
-	}
 }
 
 void	free_tab(char **tab)

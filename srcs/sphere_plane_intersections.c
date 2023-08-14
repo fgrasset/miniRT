@@ -6,7 +6,7 @@ t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
 	double	t;
 	double	denom;
 
-	inter = ft_calloc(sizeof(t_inter), 1);
+	inter = malloc(sizeof(t_inter));
 	plane->ori = normalize(plane->ori);
 	denom = dot_product(plane->ori, ray->v_dir);
 	if (fabs(denom) < 1e-6)
@@ -35,7 +35,7 @@ t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere)
 	t_v3d	oc;
 	double	t;
 
-	inter = ft_calloc(sizeof(t_inter), 1);
+	inter = malloc(sizeof(t_inter));
 	oc = sub(ray->coord, sphere->coord);
 	t = quad(dot_product(ray->v_dir, ray->v_dir), 2.0 * \
 	dot_product(oc, ray->v_dir), dot_product(oc, oc) - sphere->r * sphere->r);

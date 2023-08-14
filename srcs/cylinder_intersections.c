@@ -10,7 +10,7 @@ t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 	t_inter	*inter;
 	t_v3d	x;
 
-	inter = calloc(sizeof(t_inter), 1);
+	inter = malloc(sizeof(t_inter));
 	inter->type = CYLINDER;
 	inter->obj.cy = *cylinder;
 	x = new_v3d(ray->coord.x - cylinder->coord.x, ray->coord.y - \
