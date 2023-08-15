@@ -6,7 +6,7 @@
 /*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:51:28 by fabien            #+#    #+#             */
-/*   Updated: 2023/08/15 19:01:18 by fabien           ###   ########.fr       */
+/*   Updated: 2023/08/15 19:08:04 by fabien           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,5 @@
 # define WIN_W 1200
 # define WIN_H 800
 # define E 1e-4
-
-/* main structure used for everything */
-// typedef struct s_rt
-// {
-// 	int		win_w;
-// 	int		win_h;
-// 	t_mlbx	*mlbx;
-// 	t_scene	*sc;
-// }	t_rt;
 
 #endif
