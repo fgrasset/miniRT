@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structures.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/15 18:50:40 by fabien            #+#    #+#             */
+/*   Updated: 2023/08/15 19:02:36 by fabien           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
@@ -12,14 +24,14 @@ typedef struct s_color
 	int		r;
 	int		g;
 	int		b;
-} t_color;
+}	t_color;
 
 typedef struct s_v3d
 {
 	double	x;
 	double	y;
 	double	z;
-} t_v3d;
+}	t_v3d;
 
 /* --------------------------------------------------- */
 /* -------- STRUCTURES RELATED TO THE OBJECTS -------- */
@@ -31,7 +43,7 @@ typedef struct s_plane
 	t_v3d	coord;
 	t_v3d	ori;
 	t_color	color;
-} t_plane;
+}	t_plane;
 
 typedef struct s_sphere
 {
@@ -39,18 +51,18 @@ typedef struct s_sphere
 	t_v3d	coord;
 	double	r;
 	t_color	color;
-} t_sphere;
+}	t_sphere;
 
 typedef struct s_cylinder
 {
 	char	*id;
-	t_v3d coord;
-	t_v3d norm_vec;
+	t_v3d	coord;
+	t_v3d	norm_vec;
 	double	r;
 	double	h;
 	t_color	color;
 
-} t_cylinder;
+}	t_cylinder;
 
 union			u_figures
 {
@@ -64,17 +76,16 @@ typedef enum
 	SPHERE,
 	PLANE,
 	CYLINDER
-} FigureType;
+}	FigureType;
 
 /* Linked list for all the objects in the scene */
 typedef struct s_objects
 {
-	int i;
-	FigureType type;
-	union u_figures	fig;
-	struct s_objects *next;
-} t_objects;
-
+	int					i;
+	FigureType			type;
+	union u_figures		fig;
+	struct s_objects	*next;
+}	t_objects;
 
 /* --------------------------------------------------- */
 /* --------- STRUCTURES RELATED TO THE SCENE --------- */
@@ -84,8 +95,8 @@ typedef struct s_ambiant
 {
 	char	*id;
 	float	ratio;
-	t_color color;
-} t_ambiant;
+	t_color	color;
+}	t_ambiant;
 
 typedef struct s_camera
 {
@@ -93,23 +104,24 @@ typedef struct s_camera
 	double	fov;
 	t_v3d	coord;
 	t_v3d	ori;
-} t_camera;
+}	t_camera;
 
 typedef struct s_light
 {
 	char	*id;
 	float	ratio;
 	t_v3d	coord;
-} t_light;
+}	t_light;
 
-/* A scene is defined by some objects, two lights (ambiant & point of light) & one camera */
+/* A scene is defined by some objects,
+two lights (ambiant & point of light) & one camera */
 typedef struct s_scene
 {
 	t_ambiant	amb;
 	t_camera	cam;
 	t_light		light;
 	t_objects	*obj;
-} t_scene;
+}	t_scene;
 
 /* struct for the image of mlbx */
 typedef struct s_img {
@@ -118,8 +130,7 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-} t_img;
-
+}	t_img;
 
 /* struct for everything mlbx related */
 typedef struct s_mlbx
@@ -127,19 +138,19 @@ typedef struct s_mlbx
 	void	*mlx;
 	void	*mlx_win;
 	t_img	img;
-} t_mlbx;
+}	t_mlbx;
 
 /* struct for intersections */
 typedef struct s_inter
 {
-	int i;
-	FigureType	type;
-	union	u_figures obj;
-	double	dist;
-	t_v3d	point;
-	t_v3d	normal;
-	t_color	c;
-} t_inter;
+	int				i;
+	FigureType		type;
+	union u_figures	obj;
+	double			dist;
+	t_v3d			point;
+	t_v3d			normal;
+	t_color			c;
+}	t_inter;
 
 /* A single ray */
 typedef struct s_ray
@@ -147,27 +158,18 @@ typedef struct s_ray
 	t_v3d	v_dir;
 	t_v3d	coord;
 	t_inter	*inter;
-} t_ray;
-
-/* testing somehting for mallocs */
-union			u_malloc
-{
-	t_sphere	sp;
-	t_plane		pl;
-	t_cylinder	cy;
-};
-
-/*testing*/
-typedef struct s_mat4
-{
-	double m[4][4];
-} t_mat4;
-
-typedef struct s_v4d
-{
-	double x, y, z, w;
-} t_v4d;
+}	t_ray;
 
 /* --------------------------------------------------- */
+/* ----------- MAIN STRUCTURE ------------------------ */
+/* --------------------------------------------------- */
+
+typedef struct s_rt
+{
+	int		win_w;
+	int		win_h;
+	t_mlbx	*mlbx;
+	t_scene	*sc;
+}	t_rt;
 
 #endif

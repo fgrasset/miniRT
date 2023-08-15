@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prototypes.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/15 18:52:24 by fabien            #+#    #+#             */
+/*   Updated: 2023/08/15 18:59:53 by fabien           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PROTOTYPES_H
 # define PROTOTYPES_H
 # include "minirt.h"
@@ -39,7 +51,6 @@ t_inter		*closest_inter(t_rt *rt, t_ray *ray);
 t_inter		*intersect_plane(t_ray *ray, t_plane *plane);
 t_inter		*intersect_sphere(t_ray *ray, t_sphere *sphere);
 t_inter		*intersect_cylinder(t_ray *ray, t_cylinder *cylinder);
-int			is_point_in_object(t_rt *rt, t_v3d *point);
 
 /* v3d */
 t_v3d		new_v3d(double x, double y, double z);
@@ -52,28 +63,18 @@ t_v3d		cross(t_v3d a, t_v3d b);
 t_v3d		normalize(t_v3d	a);
 t_v3d		mult(t_v3d a, t_v3d b);
 
-/* v4d */
-t_v4d		new_v4d(double x, double y, double z, double w);
-t_v4d		v4d_from_v3d(t_v3d v, double w);
-t_v3d		v4d_to_v3d(t_v4d v);
-t_v4d		mat4_mul_v4d(t_mat4 m, t_v4d v);
-
 /* MATH */
 double		quad(double a, double b, double c);
 double		dot_product(t_v3d a, t_v3d b);
 double		dst(t_v3d *p1, t_v3d *p2);
 int			rgb_to_int(t_color rgb);
-t_mat4		mat4_translation(t_v3d t);
-t_mat4		mat4_identity(void);
-t_mat4		get_view_transform(t_camera cam);
-t_mat4		get_inverse_view_transform(t_camera cam);
-t_v3d		mat4_mul_v3d(t_mat4 m, t_v3d v);
 double		dist(const t_v3d p1, const t_v3d p2);
 
 /* LIGHTRAY & COLORS */
 t_color		int_to_rgb(const int r, const int g, const int b);
 t_color		get_color(t_inter *inter);
-t_color		lights_shadows(t_rt *rt, t_scene *sc, t_inter *inter, t_color color);
+t_color		lights_shadows(t_rt *rt, t_scene *sc, \
+t_inter *inter, t_color color);
 t_color		ambiance_color(t_color color, t_ambiant amb);
 t_color		shadow_color(t_color color, double shadow_intensity);
 t_color		diffuse_color(t_inter *inter, t_light *light, t_color color);
@@ -84,12 +85,9 @@ void		print_v3d(t_v3d vect);
 void		print_inter(t_inter *inter);
 
 /* FREE */
-void		free_structures(t_rt *rt);
 void		free_tab(char **tab);
 void		free_objects(t_rt *rt);
 void		free_inter(t_inter *inter);
 void		free_rt(t_rt *rt);
-void	print_objects(const t_objects *obj);
-
 
 #endif
