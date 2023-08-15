@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder_intersections.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/15 18:41:51 by fabien            #+#    #+#             */
+/*   Updated: 2023/08/15 18:42:23 by fabien           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/minirt.h"
 
 bool	is_intersection_valid(t_ray *ray, t_cylinder *cy, double t, double h);
@@ -58,11 +70,8 @@ bool	is_intersection_valid(t_ray *ray, t_cylinder *cy, double t, double h)
 	double	m;
 
 	p_intersection = add(ray->coord, sc_mult(ray->v_dir, t));
-	// Compute vector from cy base to intersection point
 	d = sub(p_intersection, cy->coord);
-	// Project that vector onto cy's normal
 	m = dot_product(d, cy->norm_vec);
-	// Check if m is within the bounds of the cylinder
 	return (m >= 0 && m <= h);
 }
 
@@ -75,12 +84,8 @@ t_v3d	cylinder_normal(t_v3d P, t_cylinder *cylinder)
 	double	length;
 
 	cp = sub(P, cylinder->coord);
-	// Project that vector onto cylinder's normal
 	m = dot_product(cp, cylinder->norm_vec);
-	// Subtracting the projection from the intersection point gives a vector
-	// that is perpendicular to the cylinder's axis (or normal vector).
 	norm_dir = sub(cp, sc_mult(cylinder->norm_vec, m));
-	// Normalize this direction to get the normal at the intersection point
 	length = sqrt(dot_product(norm_dir, norm_dir));
 	normal = new_v3d(norm_dir.x / length, norm_dir.y \
 	/ length, norm_dir.z / length);
