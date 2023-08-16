@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lightray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:41:18 by fabien            #+#    #+#             */
-/*   Updated: 2023/08/15 18:41:20 by fabien           ###   ########.fr       */
+/*   Updated: 2023/08/16 09:39:41 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	inter_obj(t_rt *rt, t_ray *ray, double max)
 	bool		is_in_shadow;
 
 	objects = rt->sc->obj;
-	close = ft_calloc(sizeof(t_inter), 1);
+	close = calloc_utils();
 	is_in_shadow = false;
 	while (objects)
 	{

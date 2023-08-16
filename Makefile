@@ -7,7 +7,12 @@ NORMAL		= \033[0m
 UP 			= \033[A
 CUT 		= \033[K
 
-SRCS = $(wildcard srcs/*.c) $(wildcard srcs/parsing/*.c) $(wildcard srcs/utils/*.c) $(wildcard srcs/math/*.c)
+SRCS = srcs/free.c srcs/colors.c srcs/cylinder_intersections.c srcs/errors.c srcs/intersections.c \
+srcs/lightray.c srcs/miniRT.c srcs/mlbx.c srcs/ray.c srcs/sphere_plane_intersections.c \
+srcs/math/math.c srcs/math/vec3d_others.c srcs/math/vec3d.c \
+srcs/parsing/conversions.c srcs/parsing/linked_list.c srcs/parsing/objects_parsing.c \
+srcs/parsing/parsing_utils.c srcs/parsing/parsing_utils2.c srcs/parsing/parsing.c srcs/parsing/scene_parsing.c \
+srcs/utils/print_utils.c srcs/utils/malloc.c
 
 OBJDIR	:= objs
 OBJS	:= $(addprefix $(OBJDIR)/, ${SRCS:.c=.o})

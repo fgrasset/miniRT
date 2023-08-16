@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_plane_intersections.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:40:57 by fabien            #+#    #+#             */
-/*   Updated: 2023/08/15 18:41:01 by fabien           ###   ########.fr       */
+/*   Updated: 2023/08/16 09:39:24 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_inter	*intersect_plane(t_ray *ray, t_plane *plane)
 	double	t;
 	double	denom;
 
-	inter = malloc(sizeof(t_inter));
+	inter = calloc_utils();
 	plane->ori = normalize(plane->ori);
 	denom = dot_product(plane->ori, ray->v_dir);
 	if (fabs(denom) < 1e-6)
@@ -47,7 +47,7 @@ t_inter	*intersect_sphere(t_ray *ray, t_sphere *sphere)
 	t_v3d	oc;
 	double	t;
 
-	inter = malloc(sizeof(t_inter));
+	inter = calloc_utils();
 	oc = sub(ray->coord, sphere->coord);
 	t = quad(dot_product(ray->v_dir, ray->v_dir), 2.0 * \
 	dot_product(oc, ray->v_dir), dot_product(oc, oc) - sphere->r * sphere->r);
