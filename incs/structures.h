@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lfabbian <lfabbian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:50:40 by fabien            #+#    #+#             */
-/*   Updated: 2023/08/15 19:02:36 by fabien           ###   ########.fr       */
+/*   Updated: 2023/08/16 09:47:13 by lfabbian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,18 @@ union			u_figures
 	t_cylinder	cy;
 };
 
-typedef enum
+enum e_figure
 {
 	SPHERE,
 	PLANE,
 	CYLINDER
-}	FigureType;
+};
 
 /* Linked list for all the objects in the scene */
 typedef struct s_objects
 {
 	int					i;
-	FigureType			type;
+	enum e_figure		type;
 	union u_figures		fig;
 	struct s_objects	*next;
 }	t_objects;
@@ -144,7 +144,7 @@ typedef struct s_mlbx
 typedef struct s_inter
 {
 	int				i;
-	FigureType		type;
+	enum e_figure	type;
 	union u_figures	obj;
 	double			dist;
 	t_v3d			point;
