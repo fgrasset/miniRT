@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder_intersections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:41:51 by fabien            #+#    #+#             */
-/*   Updated: 2023/08/15 18:42:23 by fabien           ###   ########.fr       */
+/*   Updated: 2023/08/16 09:37:20 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_inter	*intersect_cylinder(t_ray *ray, t_cylinder *cylinder)
 	t_inter	*inter;
 	t_v3d	x;
 
-	inter = malloc(sizeof(t_inter));
+	inter = calloc_utils();
 	inter->type = CYLINDER;
 	inter->obj.cy = *cylinder;
 	x = new_v3d(ray->coord.x - cylinder->coord.x, ray->coord.y - \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:41:23 by fabien            #+#    #+#             */
-/*   Updated: 2023/08/15 18:41:25 by fabien           ###   ########.fr       */
+/*   Updated: 2023/08/16 09:35:18 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_inter	*closest_inter(t_rt *rt, t_ray *ray)
 	t_inter		*temp;
 	t_objects	*curr_fig;
 
-	closest = ft_calloc(sizeof(t_inter), 1);
+	closest = calloc_utils();
 	closest->dist = INFINITY;
 	curr_fig = rt->sc->obj;
 	while (curr_fig)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fabien <fabien@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fgrasset <fgrasset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:52:24 by fabien            #+#    #+#             */
-/*   Updated: 2023/08/15 18:59:53 by fabien           ###   ########.fr       */
+/*   Updated: 2023/08/16 09:35:05 by fgrasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ t_color		diffuse_color(t_inter *inter, t_light *light, t_color color);
 int			cmp(const char *s1, const char *s2);
 void		print_v3d(t_v3d vect);
 void		print_inter(t_inter *inter);
+t_inter		*calloc_utils(void);
 
 /* FREE */
 void		free_tab(char **tab);
